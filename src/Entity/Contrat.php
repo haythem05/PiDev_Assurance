@@ -33,9 +33,16 @@ class Contrat
     #[Assert\NotBlank(message:"le champ avantages est obligatoire")]
     private string $avantages;
 
-    #[ORM\Column]
-    #[Assert\NotBlank(message:"le champ points est obligatoire")]
-    private ?int $points = null;
+ /**
+     * @Assert\NotBlank(message="le champ point est obligatoire.")
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 30,
+     *      notInRangeMessage = "Point  varie entre  {{ min }} et {{ max }}",
+     * )
+     */
+    private $points;
+
 
     #[ORM\ManyToOne]
     private ?Categorie $type = null;

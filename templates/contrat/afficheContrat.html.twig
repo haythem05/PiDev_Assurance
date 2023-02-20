@@ -1,0 +1,30 @@
+<table border="2">
+<tr>
+ <th>Id</th>
+ <th>idClient</th>
+  <th>Categorie</th>
+ <th>DateDebut</th>
+ <th>DateFin</th>
+ <th>Avantages</th>
+ <th>Points</th>
+ <th>Modifier</th>
+ <th>Supprimer</th>
+
+</tr>
+<tr>
+ 
+  {% for i in contrats %}
+  <td>{{i.id}}</td>
+  <td>{{i.idClient}}</td>
+   <td>{{i.type.nom}}</td>
+  <td>{{i.DateDebut|date("d/m/Y")}}</td>
+  <td>{{i.DateFin|date("d/m/Y")}}</td>
+  <td>{{i.avantages}}</td>
+  <td>{{i.Points}}</td>
+  <td><form action="{{ path('updateContrat',{'id':i.id}) }}">
+    <button>Modifier</button></form></td>
+      <td><form action="{{path('suppContrat',{'id':i.id }) }}">
+    <button>Supprimer</button></form></td>
+</tr>
+{% endfor %}
+

@@ -1,0 +1,20 @@
+<table border="2">
+<tr>
+  <th>Id</th>
+  <th>Nom</th>
+  <th>Supprimer</th>
+  <th>Modifier</th>
+
+
+</tr>
+<tr>
+  {% for i in categories %}
+  <td>{{i.id}}</td>
+  <td>{{i.nom}}</td>
+  <td><form action="{{path('suppC',{'id':i.id }) }}">
+  <button>Supprimer</button></form></td>
+  <td><form action="{{ path('updateCategorie',{'id':i.id}) }}">
+    <button>Modifier</button></form></td>
+
+</tr>
+{% endfor %}

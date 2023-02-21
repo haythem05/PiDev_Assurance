@@ -1,0 +1,80 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Liste des réclamations{% endblock %}
+
+{% block body %}
+<div class="row">
+<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:45px; margin-left: 280px; padding:45px; ">
+
+<div class="card-body">
+
+
+    <h1>Liste des réclamations</h1>
+
+  <table class="table table-bordered">
+  <thead>
+    <tr>
+       <th scope="col">Référence</th>
+      <th scope="col">Nom</th>
+     <th scope="col">Prénom</th>
+     <th scope="col">CIN</th>
+    <th scope="col">Email</th>
+    <th scope="col">Téléphone</th>
+    <th scope="col">Commentaire</th>
+    <th scope="col">Date et heure </th>
+     <th scope="col">Documents </th>
+    <th scope="col">Statut </th>
+     <th scope="col">Actions</th>
+    </tr>
+  </thead>
+    <tbody>
+  {% for reclamation in reclamations %}
+
+    <tr>
+       <td>{{ reclamation.reference }}</td>
+                    <td>{{ reclamation.nomD }}</td>
+                    <td>{{ reclamation.prenomD }}</td>
+                    <td>{{ reclamation.cin }}</td>
+                    <td>{{ reclamation.email }}</td>
+                    <td>{{ reclamation.tel }}</td>
+                    <td>{{ reclamation.commentaire }}</td>
+                     <td>{{ reclamation.CreatedAt|date('Y-m-d     H:i')}}</td>
+                      <td> {% if reclamation.file is defined and reclamation.file %}
+    <div>
+    
+        <a href="{{ asset('uploads/files/' ~ reclamation.file) }}" target="_blank">
+  <button type="button" class="btn btn-warning">{{ reclamation.file }}</button>
+</a>
+
+    </div>
+{% endif %}
+</td>
+                        <td>{{ reclamation.statut }}</td>
+                  
+
+                   
+                    <td>
+                    {% if reclamation.statut=="En cours" %}
+                   <button class="btn btn-success" onclick="window.location.href='{{ path('reclamation_approuver', {'id': reclamation.id}) }}'">Approuver</button>
+                    <button class="btn btn-danger" onclick="window.location.href='{{ path('reclamation_refuser', {'id': reclamation.id}) }}'">Refuser</button>
+                     {% elseif reclamation.statut=="approuvée" %}
+                     <button class="btn btn-danger" onclick="window.location.href='{{ path('reclamation_refuser', {'id': reclamation.id}) }}'">Refuser</button>
+                    {% elseif reclamation.statut=="refusée" %}
+                     <button class="btn btn-success" onclick="window.location.href='{{ path('reclamation_approuver', {'id': reclamation.id}) }}'">Approuver</button>
+                    
+                      {% endif %}
+                    
+                    </td>
+                 
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+           </div>
+      </div>
+    
+</div>
+
+
+
+{% endblock %}

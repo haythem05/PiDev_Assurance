@@ -1,0 +1,59 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Liste des réclamations{% endblock %}
+
+{% block body %}
+<div class="row">
+<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:45px; margin-left: 260px; padding:45px; width:1200px;">
+
+<div class="card-body">
+
+    <h1>Liste des réclamations</h1>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+       <th scope="col">idUser</th>
+      <th scope="col">Date et heure </th>
+     <th scope="col">note</th>
+     <th scope="col">reclamation</th>
+     <th scope="col">Actions</th>
+    </tr>
+  </thead>
+    <tbody>
+  {% for reponse in reponses %}
+
+    <tr>
+       <td>{{ reponse.idUser}}</td>
+                   <td>{{ reponse.createdAt|date('Y-m-d     H:i')}}</td>
+                    <td>{{ reponse.note }}</td>
+                    <td>{{ reponse.reclamation.reference }}</td>
+                 
+   
+                  
+
+                   
+                    <td>
+                 
+                   <button class="btn btn-success" onclick="window.location.href='{{ path('reponse_edit', {'id': reponse.id}) }}'">Modifier</button>
+                   
+
+ 
+    <a href="{{ path('reponse_delete', {'id': reponse.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?')">Supprimer</a>
+                    </td>
+                </tr>
+                  </tbody>
+            {% endfor %}
+        </tbody>
+    </table>
+
+   
+   
+    <a class="btn btn-primary" href="{{ path('reponse_new') }}"role="button">Créer une nouvelle réponse</a>
+         </div>
+      </div>
+    
+</div>
+
+{% endblock %}
+          

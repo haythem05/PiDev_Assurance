@@ -1,0 +1,32 @@
+{% extends 'base_back.html.twig' %}
+
+
+
+
+{% block title %}Ajouter une réponse{% endblock %}
+
+{% block body %}
+<div class="row">
+<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:45px; margin-left: 700px; padding:45px;  margin-right: 10px;  ">
+
+<style>
+      form label {
+        margin-right: 10px;
+        margin-top: 40px;
+
+      }
+    </style>
+<div class="card-body">
+    <h1>Ajouter une réponse</h1>
+    {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
+
+        {{ form_widget(form) }}
+        
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    {{ form_end(form) }}
+     </div>
+      </div>
+    
+</div>
+{% endblock %}
+

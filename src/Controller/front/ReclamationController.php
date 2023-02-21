@@ -54,29 +54,48 @@ class ReclamationController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $reclamation = $entityManager->getRepository(Reclamation::class)->find($id);
+        $originalFile = $reclamation->getFile(); // store the original file filename
         $form = $this->createForm(ReclamationFormType::class, $reclamation);
         $form->handleRequest($request);
-    
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $entityManager = $this->getDoctrine()->getManager();
-             $reclamation->setCreatedAt(new \DateTime('now'));
-            $file = $form->get('file')->getData();
-        if($file)
-            {
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
-                $file->move($this->getParameter('files_directory'), $fileName);
-                $reclamation->setFile($fileName);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('file')->getData(); // get the uploaded file
+        
+            if ($file) {
+                // generate a unique filename
+                $newFilename = md5(uniqid()) . '.' . $file->guessExtension();
+        
+                // move the file to the files directory
+                $file->move(
+                    $this->getParameter('files_directory'),
+                    $newFilename
+                );
+        
+                // update the entity with the new filename
+                $reclamation->setFile($newFilename);
+        
+                // delete the original file, if it exists
+                if ($originalFile) {
+                    $originalFilePath = $this->getParameter('files_directory') . '/' . $originalFile;
+                    if (file_exists($originalFilePath)) {
+                        unlink($originalFilePath);
+                    }
+                }
+            } else {
+                // use the original file filename
+                $reclamation->setFile($originalFile);
             }
-
-        // Appel à la méthode persist() pour enregistrer les modifications en base de données
-        $entityManager->persist($reclamation);
-        $entityManager->flush();
-       
-    
-        return $this->redirectToRoute('reclamation');
+        
+            $reclamation->setCreatedAt(new \DateTime('now'));
+        
+            // save the changes to the database
+            $entityManager->persist($reclamation);
+            $entityManager->flush();
+        
+            return $this->redirectToRoute('reclamation');
         }
-        return $this->renderForm('reclamation/front/edit.html.twig',['form'=>$form]);
+        
+        return $this->renderForm('reclamation/front/new.html.twig', ['form' => $form]);
         
     }
 

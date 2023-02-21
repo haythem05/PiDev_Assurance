@@ -17,6 +17,9 @@ class Categorie
     #[Assert\Regex(pattern: '/^[^0-9]*$/',message: 'Le nom de compte ne doit pas contenir de chiffres.')]
     private ?string $nom = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $categorieImage = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,8 +38,23 @@ class Categorie
     }
     public function __toString()
 {
-    return $this->nom;
+    return $this->nom ;
 }
 
+
+
+
+
+    public function getCategorieImage(): ?string
+    {
+        return $this->categorieImage;
+    }
+
+    public function setCategorieImage(?string $categorieImage): self
+    {
+        $this->categorieImage = $categorieImage;
+        return $this;
+    }
 }
 
+ 

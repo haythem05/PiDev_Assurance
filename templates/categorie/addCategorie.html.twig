@@ -1,7 +1,7 @@
-<h1>Ajouter une Categorie </h1>
-     {{ form_start(f,{'attr': {'novalidate': 'novalidate'}}) }}
-                {{ form_widget(f) }}
-            {{ form_end(f) }}
-
-
-
+<h1>Ajouter une Categorie</h1>
+{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.categorieImage) }}
+    {{ form_rest(form) }}
+   
+{{ form_end(form) }}

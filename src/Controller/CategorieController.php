@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Categorie;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 use App\Repository\CategorieRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Form\CategorieFormType;
@@ -54,14 +56,36 @@ public function addCategorie(ManagerRegistry $doctrine, Request $request)
     $categorie = new Categorie();
     $form = $this->createForm(CategorieFormType::class, $categorie);
     $form->handleRequest($request);
-    if ($form->isSubmitted() && $form->isValid() ) {
-            $em = $doctrine->getManager();
-            $em->persist($categorie);
-            $em->flush();
-            return $this->redirectToRoute("afficheCategorie");
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $file = $form->get('categorieImage')->getData();
+
+        if ($file) {
+            $fileName = uniqid().'.'.$file->guessExtension();
+
+            try {
+                $file->move(
+                    $this->getParameter('categorie_images_directory'),
+                    $fileName
+                );
+            } catch (FileException $e) {
+                // Handle the exception
+            }
+
+            $categorie->setCategorieImage($fileName);
         }
-        return $this->renderForm("categorie/addCategorie.html.twig", array("f" => $form));
+
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($categorie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('afficheCategorie');
     }
+
+    return $this->renderForm('categorie/addCategorie.html.twig', [
+        'form' => $form,
+    ]);
+}
 
 
 #[Route('/updateCategorie/{id}', name: 'updateCategorie')]

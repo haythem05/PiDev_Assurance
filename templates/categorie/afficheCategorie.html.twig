@@ -1,20 +1,30 @@
 <table border="2">
-<tr>
-  <th>Id</th>
-  <th>Nom</th>
-  <th>Supprimer</th>
-  <th>Modifier</th>
-
-
-</tr>
-<tr>
-  {% for i in categories %}
-  <td>{{i.id}}</td>
-  <td>{{i.nom}}</td>
-  <td><form action="{{path('suppC',{'id':i.id }) }}">
-  <button>Supprimer</button></form></td>
-  <td><form action="{{ path('updateCategorie',{'id':i.id}) }}">
-    <button>Modifier</button></form></td>
-
-</tr>
-{% endfor %}
+    <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Image</th>
+        <th>Supprimer</th>
+        <th>Modifier</th>
+    </tr>
+    {% for i in categories %}
+        <tr>
+            <td>{{ i.id }}</td>
+            <td>{{ i.nom }}</td>
+            {% if i.categorieImage %}
+                <td><img src="{{ asset('uploads/images/categorie/' ~ i.categorieImage) }}" style="width:100px;height:100px;"></td>
+            {% else %}
+                <td>No image available</td>
+            {% endif %}
+            <td>
+                <form action="{{ path('suppC', {'id': i.id}) }}">
+                    <button>Supprimer</button>
+                </form>
+            </td>
+            <td>
+                <form action="{{ path('updateCategorie', {'id': i.id}) }}">
+                    <button>Modifier</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

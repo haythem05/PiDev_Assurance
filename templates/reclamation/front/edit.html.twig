@@ -2,12 +2,15 @@
 
 {% block title %}Modifier la réclamation{% endblock %}
 
-{% block body %}
-    <link rel="stylesheet" type="text/css" href="style.css">
+{% block Partie2 %}
+   <div class="row">
+<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:30px; margin-left: 500px; padding:20px;">
+<div class="card-body">
     <h1>Modifier la réclamation</h1>
 
-    <form method="post">
-        {{ form_widget(form) }}
+   {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
+
+ {{ form_widget(form) }}
 
         <button type="submit" class="btn btn-primary" name="update_and_list">{{ 'Mettre à jour et retourner à la liste' }}</button>
     </form>
@@ -18,6 +21,10 @@
             window.location.href = "{{ redirectToPath }}";
         </script>
     {% endif %}
+                     </div>
+      </div>
+    
+</div>
 {% endblock %}
 
 

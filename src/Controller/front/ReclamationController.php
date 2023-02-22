@@ -21,6 +21,7 @@ class ReclamationController extends AbstractController
             'reclamations' => $reclamationRepository->findAll(),
         ]);
     }
+  
     
 
      #[Route('/reclamation_new', name: 'reclamation_new')]
@@ -95,7 +96,7 @@ class ReclamationController extends AbstractController
             return $this->redirectToRoute('reclamation');
         }
         
-        return $this->renderForm('reclamation/front/new.html.twig', ['form' => $form]);
+        return $this->renderForm('reclamation/front/edit.html.twig', ['form' => $form]);
         
     }
 

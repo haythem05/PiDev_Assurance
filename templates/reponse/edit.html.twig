@@ -7,11 +7,12 @@
 <div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:45px; margin-left: 700px; padding:45px;   ">
 <div class="card-body">
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+
     <h1>Modifier la réponse</h1>
 
-    <form method="post">
-        {{ form_widget(form) }}
+    {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
+
+ {{ form_widget(form) }}
 
         <button type="submit" class="btn btn-primary" name="update_and_list">{{ 'Mettre à jour et retourner à la liste' }}</button>
     </form>

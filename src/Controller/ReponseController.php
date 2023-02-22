@@ -50,19 +50,23 @@ class ReponseController extends AbstractController
     public function edit(Request $request, int $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-    
         $reponse = $entityManager->getRepository(Reponse::class)->find($id);
         $form = $this->createForm(ReponseFormType::class, $reponse);
         $form->handleRequest($request);
-    
-        if($form->isSubmitted() && $form->isValid())
-        {
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+           
+            $reponse->setCreatedAt(new \DateTime('now'));
+        
+            // save the changes to the database
+            $entityManager->persist($reponse);
             $entityManager->flush();
+        
+            return $this->redirectToRoute('reponse');
         }
-    
-        return $this->renderForm('reponse/edit.html.twig', ['form'=>$form
-            
-        ]);
+        
+        return $this->renderForm('reponse/edit.html.twig', ['form' => $form]);
+        
         
     }
 

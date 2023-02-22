@@ -24,47 +24,53 @@
     <th scope="col">Date et heure </th>
      <th scope="col">Documents </th>
     <th scope="col">Statut </th>
-    
-
-     <th scope="col">Actions</th>
+    <th scope="col">Actions</th>
     </tr>
   </thead>
-    <tbody>
-  {% for reclamation in reclamations %}
-
+<tbody>
+{% for reclamation in reclamations %}
     <tr>
-       <td>{{ reclamation.reference }}</td>
-                    <td>{{ reclamation.nomD }}</td>
-                    <td>{{ reclamation.prenomD }}</td>
-                    <td>{{ reclamation.cin }}</td>
-                    <td>{{ reclamation.email }}</td>
-                    <td>{{ reclamation.tel }}</td>
-                    <td>{{ reclamation.commentaire }}</td>
-                     <td>{{ reclamation.CreatedAt|date('Y-m-d H:i')}}</td>
-                      <td> {% if reclamation.file is defined and reclamation.file %}
-               <a href="{{ asset('uploads/files/' ~ reclamation.file) }}" target="_blank">
-               <button type="button" class="btn btn-warning">{{ reclamation.file }}</button> </a>
-               {% else %}
-                            Aucun fichier
-                        {% endif %}
-</td>
-                        <td>{{ reclamation.statut }}
-                        </td>
-                      
-                        
-                         <td>
-                 
-     <button class="btn btn-success" onclick="window.location.href='{{ path('reclamation_edit', {'id': reclamation.id}) }}'">Modifier</button>
-   
-    <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?')">Supprimer</a>
-                    </td>
-                </tr>
-                  
-            {% endfor %}
-        </tbody>
-    </table>
+        <td>{{ reclamation.reference }}</td>
+        <td>{{ reclamation.nomD }}</td>
+        <td>{{ reclamation.prenomD }}</td>
+        <td>{{ reclamation.cin }}</td>
+        <td>{{ reclamation.email }}</td>
+        <td>{{ reclamation.tel }}</td>
+        <td>{{ reclamation.commentaire }}</td>
+        <td>{{ reclamation.CreatedAt|date('Y-m-d H:i') }}</td>
+        <td>
+            {% if reclamation.file is defined and reclamation.file %}
+                <a href="{{ asset('uploads/files/' ~ reclamation.file) }}" target="_blank">
+                    <button type="button" class="btn btn-warning">{{ reclamation.file }}</button>
+                </a>
+            {% else %}
+                Aucun fichier
+            {% endif %}
+        </td>
 
-   
+            {% if reclamation.statut == 'En cours' %}
+                 <td>{{ reclamation.statut }}</td>
+              
+            {% else %}
+                <td>{{ reclamation.statut }}</td>
+            {% endif %}
+      
+        <td>
+            <button class="btn btn-success" onclick="{% if reclamation.statut == 'En cours' %}
+                    alert('Vous ne pouvez pas modifier une réclamation en cours.');
+                {% else %}
+                    window.location.href='{{ path('reclamation_edit', {'id': reclamation.id}) }}'
+                {% endif %}">
+                Modifier
+            </button>
+            <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?')">Supprimer</a>
+        </td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+
+
    
     <a class="btn btn-primary" href="{{ path('reclamation_new') }}"role="button">Créer une nouvelle réclamation</a>
 

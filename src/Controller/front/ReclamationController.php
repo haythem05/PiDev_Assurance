@@ -89,14 +89,14 @@ class ReclamationController extends AbstractController
         
             $reclamation->setCreatedAt(new \DateTime('now'));
         
-            // save the changes to the database
+            // save and execute the changes to the database
             $entityManager->persist($reclamation);
             $entityManager->flush();
         
             return $this->redirectToRoute('reclamation');
         }
         
-        return $this->renderForm('reclamation/front/edit.html.twig', ['form' => $form]);
+        return $this->renderForm('reclamation/front/new.html.twig', ['form' => $form]);
         
     }
 

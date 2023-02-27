@@ -3,30 +3,41 @@
 
 
 
-{% block title %}Ajouter une réponse{% endblock %}
+{% block title %}Repondre{% endblock %}
 
 {% block body %}
 <div class="row">
-<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:45px; margin-left: 700px; padding:45px;  margin-right: 10px;  ">
+  <div class="col-md-6 offset-md-3">
+    <div class="card" style="margin-top: 80px; padding: 30px;">
+      <div class="card-body">
 
-<style>
-      form label {
-        margin-right: 10px;
-        margin-top: 40px;
+    <h1>Répondre</h1>
 
-      }
-    </style>
-<div class="card-body">
-    <h1>Ajouter une réponse</h1>
     {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
 
-        {{ form_widget(form) }}
-        
-        <button type="submit" class="btn btn-primary">Envoyer</button>
+<div class="form-group">
+          {{ form_label(form.idUser, 'idAdmin') }}
+          {{ form_widget(form.idUser, {'attr': {'class': 'form-control'}}) }}
+          <div style="color:red"> {{ form_errors(form.idUser,{'attr':{'class':'text-danger'}}) }}</div>
+        </div>
+           </br>  
+
+         <div class="form-group">
+          {{ form_label(form.note) }}
+          {{ form_widget(form.note, {'attr': {'class': 'form-control'}}) }}
+           <div style="color:red"> {{ form_errors(form.note,{'attr':{'class':'text-danger'}}) }}</div>
+        </div>
+
+            </br>    
+               
+     <div class="form-group text-center">
+          <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
+        </div>
     {{ form_end(form) }}
-     </div>
+
       </div>
-    
+    </div>
+  </div>
 </div>
 {% endblock %}
 

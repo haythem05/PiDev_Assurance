@@ -3,26 +3,87 @@
 
 
 
-{% block title %}Ajouter une reclamation{% endblock %}
+{% block title %}Reclamer{% endblock %}
 
 {% block Partie2 %}
 <div class="row">
-<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:30px; margin-left: 500px; padding:20px;">
-<div class="card-body">
+  <div class="col-md-6 offset-md-3">
+    <div class="card" style="margin-top: 80px; padding: 30px;">
+      <div class="card-body">
 
-    <h1>Ajouter une reclamation</h1>
-    {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
+        <h1 class="text-center mb-5">Réclamer</h1>
 
-{{ form_widget(form) }}
-        
-        <button type="submit" class="btn btn-primary">Envoyer</button>
-    {{ form_end(form) }}
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
-                 </div>
+        <div class="form-group">
+          {{ form_label(form.reference, 'Référence') }}
+          {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
+          <div style="color:red"> {{ form_errors(form.reference,{'attr':{'class':'text-danger'}}) }}</div>
+        </div>
+           </br>  
+
+        <div class="form-group">
+          {{ form_label(form.nomD) }}
+          {{ form_widget(form.nomD, {'attr': {'class': 'form-control'}}) }}
+           <div style="color:red"> {{ form_errors(form.nomD,{'attr':{'class':'text-danger'}}) }}</div>
+        </div>
+           </br>  
+
+        <div class="form-group">
+          {{ form_label(form.prenomD, 'Prénom') }}
+          {{ form_widget(form.prenomD, {'attr': {'class': 'form-control'}}) }}
+            <div style="color:red"> {{ form_errors(form.prenomD,{'attr':{'class':'text-danger'}}) }}</div>
+        </div>
+           </br>  
+
+        <div class="form-group">
+          {{ form_label(form.cin, 'CIN') }}
+          {{ form_widget(form.cin, {'attr': {'class': 'form-control'}}) }}
+            <div style="color:red"> {{ form_errors(form.cin,{'attr':{'class':'text-danger'}}) }}</div>
+            
+        </div>
+           </br>  
+
+        <div class="form-group">
+          {{ form_label(form.email, 'Email') }}
+          {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+              <div style="color:red"> {{ form_errors(form.email,{'attr':{'class':'text-danger'}}) }}</div>
+        </div>
+           </br>  
+
+        <div class="form-group">
+          {{ form_label(form.tel, 'Téléphone') }}
+          {{ form_widget(form.tel, {'attr': {'class': 'form-control'}}) }}
+              <div style="color:red"> {{ form_errors(form.tel,{'attr':{'class':'text-danger'}}) }}</div>
+        </div>
+           </br>  
+
+        <div class="form-group">
+          {{ form_label(form.commentaire, 'Commentaire') }}
+          {{ form_widget(form.commentaire, {'attr': {'class': 'form-control'}}) }}
+              <div style="color:red"> {{ form_errors(form.commentaire,{'attr':{'class':'text-danger'}}) }}</div>
+        </div>
+         </br>  
+
+        <div class="form-group">
+          {{ form_label(form.file, 'Fichier') }}
+          {{ form_widget(form.file, {'attr': {'class': 'form-control-file'}}) }}
+              <div style="color:red"> {{ form_errors(form.file,{'attr':{'class':'text-danger'}}) }}</div>
+        </div>
+
+         </br>  
+
+        <div class="form-group text-center">
+          <button type="submit" class="btn btn-primary btn-lg">Envoyer</button>
+        </div>
+
+        {{ form_end(form) }}
+
       </div>
-    
+    </div>
+  </div>
 </div>
 
-
 {% endblock %}
+
 

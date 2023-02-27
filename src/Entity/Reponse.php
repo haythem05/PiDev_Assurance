@@ -20,11 +20,16 @@ class Reponse
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"idUser est obligatoire")]
+    #[Assert\NotBlank(message:"idAdmin est obligatoire")]
     private ?string $idUser = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message:"note est obligatoire")]
+    #[Assert\Length(  
+        min : 10,
+       minMessage:" Entrer 10 caractères au minimum"
+   
+        )]
     private ?string $note = null;
 
     #[ORM\ManyToOne]

@@ -65,7 +65,7 @@ class ReponseController extends AbstractController
             return $this->redirectToRoute('reponse');
         }
         
-        return $this->renderForm('reponse/edit.html.twig', ['form' => $form]);
+        return $this->renderForm('reponse/new.html.twig', ['form' => $form]);
         
         
     }

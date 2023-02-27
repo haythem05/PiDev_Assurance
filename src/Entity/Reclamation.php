@@ -22,42 +22,64 @@ class Reclamation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"reference est obligatoire")]
+   
+    #[ORM\GeneratedValue(strategy:"AUTO")]
+    #[ORM\Column(length: 255, unique :true)]
+    #[Assert\Regex(
+            pattern:"/^[a-zA-Z0-9]+$/"
+        )]
     private ?string $reference = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"nomD est obligatoire")]
+    #[Assert\NotBlank(message:"nom est obligatoire")]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z]+$/',
+        message: 'Le nom ne doit contenir que des lettres.'
+    )]
+
     private ?string $nomD = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"prenomD est obligatoire")]
+    #[Assert\NotBlank(message:"prenom est obligatoire")]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z]+$/',
+        message: 'Le prenom ne doit contenir que des lettres.'
+    )]
     private ?string $prenomD = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message:"cin est obligatoire")]
-    #[Assert\Length(
-        min: 8,
-        max: 8,
+    #[Assert\Regex(
+        pattern: '/^[0-9]{8}$/',
+        message: 'CIN doit contenir exactement 8 chiffres sans caractères.'
     )]
     private ?int $cin = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"email est obligatoire")]
     #[Assert\Email(message:"email n'est pas valide")]
+
+
     private ?string $email = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message:"tel est obligatoire")]
-    #[Assert\Length(
-        min: 8,
-        max: 8,
+    #[Assert\Regex(
+        pattern: '/^[0-9]{8}$/',
+        message: 'Tel doit contenir exactement 8 chiffres sans caractères.'
     )]
+    
     private ?int $tel = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message:"commentaire est obligatoire")]
+    #[Assert\Length(  
+         min : 10,
+        minMessage:" Entrer 10 caractères au minimum"
+    
+         )]
     private ?string $commentaire = null;
+  
 
     #[ORM\Column]
     private ?\DateTime $createdAt ;
@@ -202,4 +224,11 @@ class Reclamation
 
         return $this;
     }
+
+    public function __construct()
+    {
+        $this->reference = uniqid();
+        $this->reference = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+    }
+
 }

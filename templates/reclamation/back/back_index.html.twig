@@ -4,15 +4,8 @@
 
 {% block body %}
 <div class="row">
-<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:45px; margin-left: 260px; padding:45px;  ">
+<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:45px; margin-left:400px; padding:45px;  ">
 
-<style>
-      form label {
-        margin-right: 10px;
-        margin-top: 40px;
-
-      }
-    </style>
 <div class="card-body">
 
 <table class="table table-bordered">
@@ -28,9 +21,8 @@
     <th scope="col">Date et heure </th>
      <th scope="col">Documents </th>
     <th scope="col">Statut </th>
-    
-
-     <th scope="col">Actions</th>
+    <th scope="col">Actions</th>
+      <th scope="col">Reponse</th>
     </tr>
   </thead>
     <tbody>
@@ -54,6 +46,7 @@
                       
 </td>
                         <td>{{ reclamation.statut }}</td>
+                        
                   
 
                    
@@ -69,6 +62,7 @@
                       {% endif %}
                     
                     </td>
+                      <td><button class="btn btn-success" onclick="window.location.href='{{ path('reponse_new', {'reference': reclamation.reference}) }}'">Repondre</button></td>
                  
                 </tr>
             {% endfor %}

@@ -23,20 +23,14 @@ class ReclamationFormType extends AbstractType
         ->add('reference', TextType::class, [
             'label' => 'Référence',
             'attr' => [
-                'placeholder' => 'Entrez la référence de la réclamation'
-            ]
+                'readonly' => true,
+            ],
         ])
      
         ->add('nomD', TextType::class, [
             'label' => 'Nom',
             'attr' => [
                 'placeholder' => 'Entrez le nom'
-            ],
-            'constraints' => [
-                new Regex([
-                    'pattern' => '/^[a-zA-Z]+$/',
-                    'message' => 'Le nom ne doit contenir que des lettres.'
-                ])
             ]
         ])
         
@@ -44,19 +38,15 @@ class ReclamationFormType extends AbstractType
             'label' => 'Prenom',
             'attr' => [
                 'placeholder' => 'Entrez le prenom'
-            ],
-            'constraints' => [
-                new Regex([
-                    'pattern' => '/^[a-zA-Z]+$/',
-                    'message' => 'Le prenom ne doit contenir que des lettres.'
-                ])
             ]
         ])
+
         ->add('cin', IntegerType::class, [
             'label' => 'CIN',
             'attr' => [
                 'placeholder' => 'Entrez le numéro de CIN'
             ]
+
         ])
         ->add('email', EmailType::class, [
             'label' => 'Email',
@@ -76,6 +66,7 @@ class ReclamationFormType extends AbstractType
                 'placeholder' => 'Entrez le commentaire'
             ]
         ])
+        
         ->add('file', FileType::class, [
             'mapped' => false,
             'required' => false,

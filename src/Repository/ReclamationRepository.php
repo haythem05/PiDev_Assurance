@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Reclamation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Twilio\Rest\Client;
 
 /**
  * @extends ServiceEntityRepository<Reclamation>
@@ -39,28 +40,34 @@ class ReclamationRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Reclamation[] Returns an array of Reclamation objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function orderByNomASC()
+    {
+        return $this->createQueryBuilder('n')
+            ->orderBy('n.nomD', 'ASC')
+            ->getQuery()->getResult();
+    }
+    
 
-//    public function findOneBySomeField($value): ?Reclamation
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+public function sms($tel){
+    // Your Account SID and Auth Token from twilio.com/console
+    $sid = 'ACff84933d8ba60e09a568cccd1ed8fd14';
+    $auth_token = '17b9fb6584bfd31981001de3db1717b5';
+    // In production, these should be environment variables. E.g.:
+    // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
+    // A Twilio number you own with SMS capabilities
+    $twilio_number = "+12763294372";
+
+    $client = new Client($sid, $auth_token);
+    $client->messages->create(
+        // the number you'd like to send the message to
+        $tel,
+        [
+            // A Twilio phone number you purchased at twilio.com/console
+            'from' => '+12763294372',
+            // the body of the text message you'd like to send
+            'body' => 'Votre réclamation est reçue avec succès et sera traitée dans une heure. Merci!'
+        ]
+    );
+}
+
 }

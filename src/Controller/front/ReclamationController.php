@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use libphonenumber\PhoneNumberUtil;
+use libphonenumber\PhoneNumberFormat;
+
 
 class ReclamationController extends AbstractController
 {
@@ -34,6 +37,13 @@ class ReclamationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $reclamation->setCreatedAt(new \DateTime('now'));
+            $tel = $form->get('tel')->getData();
+            $phoneUtil = PhoneNumberUtil::getInstance();
+            $numberProto = $phoneUtil->parse($tel, 'TN'); // Remplacez "FR" par le code ISO du pays du numéro de téléphone saisi
+            $formattedTel = $phoneUtil->format($numberProto, PhoneNumberFormat::E164); // Le format E164 inclut l'indicatif du pays
+    
+            // Créez une nouvelle réclamation avec le numéro de téléphone formaté
+            $reclamation->setTel($formattedTel);
             $file = $form->get('file')->getData();
         if($file)
             {
@@ -108,5 +118,35 @@ class ReclamationController extends AbstractController
     
         return $this->redirectToRoute('reclamation');
     }
+    #[Route('/TriPAB', name: 'app_tri_nom')]
+    public function Tri(ReclamationRepository $repository)
+    {
+        $reclamation = $repository->orderByNomASC();
+        return $this->render("reclamation/front/reclamation_index.html.twig", array("reclamations" => $reclamation));
+    }
+
+    #[Route('/sms/{id}', name: 'app_sms')]
+    function envoyerSMS(ReclamationRepository $repository, $id, Request $request, ManagerRegistry $doctrine)
+    {
+        $reclamation = $repository->find($id);
+        if (!$reclamation) {
+            throw $this->createNotFoundException('Reclamation non trouvée.');
+        }
     
+        // Récupération du numéro de téléphone du client
+        $tel = $reclamation->getTel();
+        if (!$tel) {
+            throw $this->createNotFoundException('Numéro de téléphone non trouvé.');
+        }
+    
+        // Envoi du SMS
+        $repository->sms($tel);
+    
+        $em = $doctrine->getManager();
+        $em->flush();
+    
+        $this->addFlash('danger', 'SMS envoyé avec succès');
+    
+        return $this->redirectToRoute('reclamation');
+    }
 }

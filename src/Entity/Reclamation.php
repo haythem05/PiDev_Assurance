@@ -62,14 +62,7 @@ class Reclamation
 
     private ?string $email = null;
 
-    #[ORM\Column]
-    #[Assert\NotBlank(message:"tel est obligatoire")]
-    #[Assert\Regex(
-        pattern: '/^[0-9]{8}$/',
-        message: 'Tel doit contenir exactement 8 chiffres sans caractères.'
-    )]
     
-    private ?int $tel = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message:"commentaire est obligatoire")]
@@ -91,6 +84,10 @@ class Reclamation
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $file = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"tel est obligatoire")]
+    private ?string $tel = null;
 
   
 
@@ -163,17 +160,7 @@ class Reclamation
         return $this;
     }
 
-    public function getTel(): ?int
-    {
-        return $this->tel;
-    }
-
-    public function setTel(int $tel): self
-    {
-        $this->tel = $tel;
-
-        return $this;
-    }
+ 
     public function getCommentaire(): ?string
     {
         return $this->commentaire;
@@ -229,6 +216,18 @@ class Reclamation
     {
         $this->reference = uniqid();
         $this->reference = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+    }
+
+    public function getTel(): ?string
+    {
+        return $this->tel;
+    }
+
+    public function setTel(string $tel): self
+    {
+        $this->tel = $tel;
+
+        return $this;
     }
 
 }

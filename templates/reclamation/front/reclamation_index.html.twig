@@ -9,6 +9,7 @@
 
 
 <div class="card-body">
+<a href="{{ path('app_tri_nom') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-sort-amount-up"></i>Trier par nom</a>
 
     <h1>Liste des réclamations</h1>
 
@@ -72,7 +73,9 @@
             </button>
               </br>
                </br>
-            <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}" class="btn btn-primary" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?')">Supprimer</a>
+<a href="{{ path('app_sms',{'id':reclamation.id}) }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-envelope"></i>Envoyer un sms</a><br>
+<a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}"onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?')"><i class="ri-delete-bin-2-fill" style="font-size: 1.5em;"> </i></a>
+          
         </td>
     </tr>
 {% endfor %}

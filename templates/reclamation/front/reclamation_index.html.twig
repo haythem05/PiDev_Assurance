@@ -9,16 +9,26 @@
 
 
 <div class="card-body">
+<div id="google_translate_element"></div>
+ <script type="text/javascript">
+ function googleTranslateElementInit() {
+new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+                        }
+   </script>
+
+   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+     </br>
+               </br>
+               
 <a href="{{ path('app_tri_nom') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-sort-amount-up"></i>Trier par nom</a>
 
     <h1>Liste des réclamations</h1>
 
     <link rel="stylesheet" href="{{ asset('assets2/css/style.css') }}">
     
-
-<table class="table table-sm">
-  <thead>
-    <tr>
+<table class="table table-bordered">
+     <thead class="table-dark">
+<tr>
        <th scope="col">Référence</th>
       <th scope="col">Nom</th>
      <th scope="col">Prénom</th>
@@ -30,9 +40,9 @@
      <th scope="col">Documents </th>
     <th scope="col">Statut </th>
     <th scope="col">Actions</th>
-    </tr>
+      </tr>
   </thead>
-<tbody>
+  <tbody>
 {% for reclamation in reclamations %}
     <tr>
         <td>{{ reclamation.reference }}</td>
@@ -43,44 +53,57 @@
         <td>{{ reclamation.tel }}</td>
         <td>{{ reclamation.commentaire }}</td>
         <td>{{ reclamation.CreatedAt|date('Y-m-d H:i') }}</td>
-        <td>
-            {% if reclamation.file is defined and reclamation.file %}
-                <a href="{{ asset('uploads/files/' ~ reclamation.file) }}" target="_blank">
-                    <button type="button" class="btn btn-warning">{{ reclamation.file }}</button>
-                </a>
-            {% else %}
-                Aucun fichier
-            {% endif %}
-        </td>
+<td>
+    {% if reclamation.file is defined and reclamation.file %}
+        <a href="{{ asset('uploads/files/' ~ reclamation.file) }}" target="_blank">
+            <button type="button" class="btn btn-warning">Ouvrir le document</button>
+        </a>
+    {% else %}
+        Aucun fichier
+    {% endif %}
+</td>
 
-           <td>
+
+<td>
   {% if reclamation.statut == 'En cours' %}
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-  {% else %}
-    {{ reclamation.statut }}
+  {% elseif reclamation.statut == 'approuvée' %}
+    <i class="bi bi-check2-circle text-success" style="font-size: 2rem;"></i>
+  {% elseif reclamation.statut == 'refusée' %}
+    <i class="bi bi-x-circle text-danger" style="font-size: 2rem;"></i>
   {% endif %}
 </td>
+
+
       
-        <td>
-            <button class="btn btn-primary" onclick="{% if reclamation.statut == 'En cours' %}
-                    alert('Vous ne pouvez pas modifier une réclamation en cours.');
-                {% else %}
-                    window.location.href='{{ path('reclamation_edit', {'id': reclamation.id}) }}'
-                {% endif %}">
-                Modifier
-            </button>
+  <td>
+  <button class="btn btn-primary" onclick="
+    {% if reclamation.statut == 'En cours' %}
+      alert('Vous ne pouvez pas modifier une réclamation en cours.');
+    {% else %}
+      window.location.href='{{ path('reclamation_edit', {'id': reclamation.id}) }}'
+    {% endif %}"
+    title="Modifier">
+    <i class="ri-pencil-fill" style="font-size: 0.8em;"></i>
+  </button>
+
+
               </br>
-               </br>
+                   </br>
+               
+
 <a href="{{ path('app_sms',{'id':reclamation.id}) }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-envelope"></i>Envoyer un sms</a><br>
 <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}"onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?')"><i class="ri-delete-bin-2-fill" style="font-size: 1.5em;"> </i></a>
           
         </td>
     </tr>
 {% endfor %}
-</tbody>
-</table>
+    </tbody>
+  </table>
+
+
 
              </div>
       </div>

@@ -51,7 +51,7 @@ class ReclamationRepository extends ServiceEntityRepository
 public function sms($tel){
     // Your Account SID and Auth Token from twilio.com/console
     $sid = 'ACff84933d8ba60e09a568cccd1ed8fd14';
-    $auth_token = '17b9fb6584bfd31981001de3db1717b5';
+    $auth_token = 'c7a30a539216a1277f4665f738d45bb0';
     // In production, these should be environment variables. E.g.:
     // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
     // A Twilio number you own with SMS capabilities

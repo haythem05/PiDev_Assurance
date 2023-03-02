@@ -23,6 +23,11 @@ class ReclamationController extends AbstractController
         return $this->render('reclamation/front/reclamation_index.html.twig', [
             'reclamations' => $reclamationRepository->findAll(),
         ]);
+        foreach ($reclamation->getReponses() as $reponse) {
+            $note = $reponse->getNote();
+            // faire quelque chose avec la note
+        }
+        
     }
   
     
@@ -122,6 +127,16 @@ class ReclamationController extends AbstractController
     public function Tri(ReclamationRepository $repository)
     {
         $reclamation = $repository->orderByNomASC();
+        return $this->render("reclamation/front/reclamation_index.html.twig", array("reclamations" => $reclamation));
+    }
+
+    #[Route('/TriPD', name: 'app_tri_date')]
+    public function Tridate(ReclamationRepository $repository)
+    {
+$reclamation = $this->getDoctrine()
+->getRepository(Reclamation::class)
+->findAllOrderByDateDesc();
+
         return $this->render("reclamation/front/reclamation_index.html.twig", array("reclamations" => $reclamation));
     }
 

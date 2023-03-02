@@ -89,6 +89,10 @@ class Reclamation
     #[Assert\NotBlank(message:"tel est obligatoire")]
     private ?string $tel = null;
 
+    #[ORM\OneToMany(mappedBy: 'Reclamation', targetEntity: Reponse::class)]
+    private Collection $reponses;
+    
+
   
 
   
@@ -216,6 +220,7 @@ class Reclamation
     {
         $this->reference = uniqid();
         $this->reference = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        $this->reponses = new ArrayCollection();
     }
 
     public function getTel(): ?string
@@ -229,5 +234,36 @@ class Reclamation
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Reponse>
+     */
+    public function getReponses(): Collection
+    {
+        return $this->reponses;
+    }
+
+    public function addReponse(Reponse $reponse): self
+    {
+        if (!$this->reponses->contains($reponse)) {
+            $this->reponses->add($reponse);
+            $reponse->setReclamation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReponse(Reponse $reponse): self
+    {
+        if ($this->reponses->removeElement($reponse)) {
+            // set the owning side to null (unless already changed)
+            if ($reponse->getReclamation() === $this) {
+                $reponse->setReclamation(null);
+            }
+        }
+
+        return $this;
+    }
+    
 
 }

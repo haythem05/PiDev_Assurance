@@ -23,7 +23,7 @@ class Reponse
     #[Assert\NotBlank(message:"idAdmin est obligatoire")]
     private ?string $idUser = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"note est obligatoire")]
     #[Assert\Length(  
         min : 10,
@@ -32,14 +32,13 @@ class Reponse
         )]
     private ?string $note = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Reclamation $reclamation = null;
+  
+
+    #[ORM\ManyToOne(inversedBy: 'reponses')]
+    private ?Reclamation $Reclamation = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
-
-   
 
     public function getId(): ?int
     {
@@ -58,9 +57,6 @@ class Reponse
         return $this;
     }
 
-
-
-
     public function getNote(): ?string
     {
         return $this->note;
@@ -73,14 +69,16 @@ class Reponse
         return $this;
     }
 
+   
+
     public function getReclamation(): ?Reclamation
     {
-        return $this->reclamation;
+        return $this->Reclamation;
     }
 
-    public function setReclamation(?Reclamation $reclamation): self
+    public function setReclamation(?Reclamation $Reclamation): self
     {
-        $this->reclamation = $reclamation;
+        $this->Reclamation = $Reclamation;
 
         return $this;
     }
@@ -96,6 +94,4 @@ class Reponse
 
         return $this;
     }
-
-    
 }

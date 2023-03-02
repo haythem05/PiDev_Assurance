@@ -19,23 +19,23 @@ class ReponseFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idUser',IntegerType::class,[
-                'label' => 'idUser',
-                'attr' => [
-                    'placeholder' => 'Entrez le numéro de idUser '
-                ]
-            ])
-            ->add('note',TextareaType::class, [
-                'label' => 'Note',
-                'attr' => [
-                    'placeholder' => 'Entrez la note'
-                ]
-            ])
-            ->add('reclamation', EntityType::class, [
-                'class' => Reclamation::class,
-                'choice_label' => 'reference'
-            ]);
-    }
+        ->add('idUser',IntegerType::class,[
+            'label' => 'idUser',
+            'attr' => [
+                'placeholder' => 'Entrez le numéro de idUser '
+            ]
+        ])
+        ->add('note',TextareaType::class, [
+            'label' => 'Note',
+            'attr' => [
+                'placeholder' => 'Entrez la note'
+            ]
+        ])
+        ->add('reclamation', EntityType::class, [
+            'class' => Reclamation::class,
+            'choice_label' => 'reference'
+        ]);
+}
 
     public function configureOptions(OptionsResolver $resolver): void
     {

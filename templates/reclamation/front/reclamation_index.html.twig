@@ -21,6 +21,7 @@ new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_el
                </br>
                
 <a href="{{ path('app_tri_nom') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-sort-amount-up"></i>Trier par nom</a>
+<a href="{{ path('app_tri_date') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-sort-amount-up"></i>Trier par date</a>
 
     <h1>Liste des réclamations</h1>
 
@@ -35,14 +36,15 @@ new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_el
      <th scope="col">CIN</th>
     <th scope="col">Email</th>
     <th scope="col">Téléphone</th>
-    <th scope="col">Note</th>
+    <th scope="col">Commentaire</th>
     <th scope="col">Date et heure </th>
      <th scope="col">Documents </th>
+   <th scope="col">Note </th>
     <th scope="col">Statut </th>
     <th scope="col">Actions</th>
-      </tr>
+    </tr>
   </thead>
-  <tbody>
+    <tbody>
 {% for reclamation in reclamations %}
     <tr>
         <td>{{ reclamation.reference }}</td>
@@ -62,6 +64,15 @@ new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_el
         Aucun fichier
     {% endif %}
 </td>
+<td>
+  {% if reclamation.reponses is not empty and reclamation.reponses.first.note is not null %}
+    {{ reclamation.reponses.first.note }}
+  {% else %}
+    N/A
+  {% endif %}
+</td>
+
+
 
 
 <td>
@@ -95,6 +106,7 @@ new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_el
                
 
 <a href="{{ path('app_sms',{'id':reclamation.id}) }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-envelope"></i>Envoyer un sms</a><br>
+
 <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}"onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?')"><i class="ri-delete-bin-2-fill" style="font-size: 1.5em;"> </i></a>
           
         </td>

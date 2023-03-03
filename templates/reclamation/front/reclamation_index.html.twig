@@ -112,13 +112,15 @@ new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_el
 <a href="{{ path('app_sms',{'id':reclamation.id}) }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-envelope"></i>Envoyer un sms</a><br>
 
 <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}"onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?')"><i class="ri-delete-bin-2-fill" style="font-size: 1.5em;"> </i></a>
-          
+          <div class="pagination">
+      
+    </div>
         </td>
     </tr>
 {% endfor %}
     </tbody>
   </table>
-
+  {{ knp_pagination_render(reclamations) }}
 
 
              </div>

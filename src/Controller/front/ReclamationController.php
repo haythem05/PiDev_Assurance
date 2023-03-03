@@ -15,22 +15,34 @@ use libphonenumber\PhoneNumberUtil;
 use libphonenumber\PhoneNumberFormat;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 class ReclamationController extends AbstractController
 {
     #[Route('/reclamation', name: 'reclamation')]
-    public function index(ReclamationRepository $reclamationRepository): Response
+    public function index(ReclamationRepository $reclamationRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        return $this->render('reclamation/front/reclamation_index.html.twig', [
-            'reclamations' => $reclamationRepository->findAll(),
-        ]);
-        foreach ($reclamation->getReponses() as $reponse) {
-            $note = $reponse->getNote();
-            // faire quelque chose avec la note
+        $reclamations = $reclamationRepository->findAll();
+    
+        $reclamationsPaginated = $paginator->paginate(
+            $reclamations,
+            $request->query->getInt('page', 1),
+            3
+        );
+    
+        foreach ($reclamationsPaginated as $reclamation) {
+            foreach ($reclamation->getReponses() as $reponse) {
+                $note = $reponse->getNote();
+                // faire quelque chose avec la note
+            }
         }
-        
+    
+        return $this->render('reclamation/front/reclamation_index.html.twig', [
+            'reclamations' => $reclamationsPaginated,
+        ]);
     }
+    
   
     
 

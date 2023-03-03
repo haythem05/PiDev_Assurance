@@ -15,24 +15,20 @@
                 <script>
                     let reclamation = document.querySelector("#reclamation");
                     let recGraph = new Chart(reclamation, {
-                        type: "bar",
+                        type: "pie",
                         data: {
                             labels: {{ statuts|raw }},
                             datasets: [{
                                 label: "Nombre de réclamation",
                                 data: {{ reclamationCount|raw }},
-                                backgroundColor: '#99d6ff',
+                                backgroundColor: [
+                                    '#99d6ff',
+                                    '#ff6666',
+                                    '#66cc66'
+                                ]
                             }]
                         },
-                        options: {
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true
-                                    }
-                                }]
-                            }
-                        }
+                        options: {}
                     });
                 </script>
             </div>

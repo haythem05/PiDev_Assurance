@@ -64,11 +64,6 @@ class ReclamationController extends AbstractController
             public function stats(ReclamationRepository $repository, NormalizerInterface $Normalizer)
             {
                 $reclamations = $repository->countByStatut();
-                $statutColors = [
-                    'En cours' => '#ffcc66',
-                    'Refusée' => '#ff6666',
-                    'Approuvée' => '#66cc66'
-                ];
                 $statuts = [];
                 $reclamationCount = [];
                 foreach ($reclamations as $reclamation) {

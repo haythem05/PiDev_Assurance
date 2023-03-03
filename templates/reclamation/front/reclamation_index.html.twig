@@ -9,19 +9,23 @@
 
 
 <div class="card-body">
+
 <div id="google_translate_element"></div>
  <script type="text/javascript">
  function googleTranslateElementInit() {
-new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
                         }
    </script>
 
    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
      </br>
+
                </br>
+
                
-<a href="{{ path('app_tri_nom') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-sort-amount-up"></i>Trier par nom</a>
+
 <a href="{{ path('app_tri_date') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-sort-amount-up"></i>Trier par date</a>
+     <a href="{{ path('PDF_Reclamation') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-print"></i>Générer PDF</a>
 
     <h1>Liste des réclamations</h1>
 

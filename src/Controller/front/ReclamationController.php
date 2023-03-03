@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use libphonenumber\PhoneNumberUtil;
 use libphonenumber\PhoneNumberFormat;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 
 class ReclamationController extends AbstractController
@@ -58,6 +60,7 @@ class ReclamationController extends AbstractController
             }
             $entityManager->persist($reclamation);
             $entityManager->flush();
+            
 
             return $this->redirectToRoute('reclamation');
         }
@@ -123,12 +126,6 @@ class ReclamationController extends AbstractController
     
         return $this->redirectToRoute('reclamation');
     }
-    #[Route('/TriPAB', name: 'app_tri_nom')]
-    public function Tri(ReclamationRepository $repository)
-    {
-        $reclamation = $repository->orderByNomASC();
-        return $this->render("reclamation/front/reclamation_index.html.twig", array("reclamations" => $reclamation));
-    }
 
     #[Route('/TriPD', name: 'app_tri_date')]
     public function Tridate(ReclamationRepository $repository)
@@ -163,5 +160,37 @@ $reclamation = $this->getDoctrine()
         $this->addFlash('danger', 'SMS envoyé avec succès');
     
         return $this->redirectToRoute('reclamation');
+    }
+
+    #[Route('/pdf', name: 'PDF_Reclamation')]
+    public function pdf(ReclamationRepository $Repository)
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Open Sans');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('reclamation/front/pdf.html.twig', [
+            'reclamations' => $Repository->findAll(),
+        ]);
+
+        // Add header HTML to $html variable
+        $headerHtml = '<h1 style="text-align: center; color: #b00707;">Liste des reclamations</h1>';
+        $html = $headerHtml . $html;
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A3', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+        // Output the generated PDF to Browser (inline view)
+        $dompdf->stream("ListeDesReclamations.pdf", [
+            "reclamations" => true
+        ]);
+
     }
 }

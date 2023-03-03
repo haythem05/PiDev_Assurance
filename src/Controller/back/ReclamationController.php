@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ReclamationController extends AbstractController
 {
@@ -52,6 +53,36 @@ class ReclamationController extends AbstractController
               
               
             }
+            #[Route('/TriPAB', name: 'app_tri_nom')]
+            public function Tri(ReclamationRepository $repository)
+            {
+                $reclamation = $repository->orderByNomASC();
+                return $this->render("reclamation/back/back_index.html.twig", array("reclamations" => $reclamation));
+            }
+
+            #[Route('/reclamations/stat', name: 'reclamations_stat')]
+            public function stats(ReclamationRepository $repository, NormalizerInterface $Normalizer)
+            {
+                $reclamations = $repository->countByStatut();
+                $statutColors = [
+                    'En cours' => '#ffcc66',
+                    'Refusée' => '#ff6666',
+                    'Approuvée' => '#66cc66'
+                ];
+                $statuts = [];
+                $reclamationCount = [];
+                foreach ($reclamations as $reclamation) {
+                    $statuts[] = $reclamation['statut'];
+                    $reclamationCount[] = $reclamation['count'];
+                }
+                dump($reclamationCount);
+                return $this->render('reclamation/back/stat.html.twig', [
+                    'statuts' => json_encode($statuts),
+                    'reclamationCount' => json_encode($reclamationCount),
+                ]);
+            }
+            
+
     
 }
 

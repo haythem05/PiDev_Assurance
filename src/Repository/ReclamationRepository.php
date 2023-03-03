@@ -77,5 +77,15 @@ public function sms($tel){
         ]
     );
 }
+public function countByStatut()
+{
+    $query = $this->createQueryBuilder('r');
+    $query
+        ->select('r.statut, COUNT(r) as count')
+        ->groupBy('r.statut')
+    ;
+    return $query->getQuery()->getResult();
+}
+
 
 }

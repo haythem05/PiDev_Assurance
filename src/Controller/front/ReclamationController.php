@@ -16,31 +16,31 @@ use libphonenumber\PhoneNumberFormat;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 
 class ReclamationController extends AbstractController
 {
     #[Route('/reclamation', name: 'reclamation')]
-    public function index(ReclamationRepository $reclamationRepository, Request $request, PaginatorInterface $paginator): Response
+    public function index(ReclamationRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
-        $reclamations = $reclamationRepository->findAll();
-    
-        $reclamationsPaginated = $paginator->paginate(
-            $reclamations,
-            $request->query->getInt('page', 1),
+        $reclamation = $paginator->paginate(
+            $reclamation = $repository->findAll(),
+            $page = $request->query->getInt('page', 1),
             3
         );
     
-        foreach ($reclamationsPaginated as $reclamation) {
-            foreach ($reclamation->getReponses() as $reponse) {
-                $note = $reponse->getNote();
-                // faire quelque chose avec la note
-            }
-        }
+        if ($request->isXmlHttpRequest()) {
+            $html = $this->renderView("reclamation/front/reclamation_index.html.twig", [
+                "reclamations" => $reclamation,
+            ]);
     
-        return $this->render('reclamation/front/reclamation_index.html.twig', [
-            'reclamations' => $reclamationsPaginated,
-        ]);
+            return new JsonResponse($html);
+        } else {
+            return $this->render("reclamation/front/reclamation_index.html.twig", [
+                "reclamations" => $reclamation,
+            ]);
+        }
     }
     
   
@@ -73,7 +73,7 @@ class ReclamationController extends AbstractController
             $entityManager->persist($reclamation);
             $entityManager->flush();
             
-
+            $flush =$this->addFlash('success', 'Reclamation was successfully saved.');
             return $this->redirectToRoute('reclamation');
         }
 
@@ -139,14 +139,49 @@ class ReclamationController extends AbstractController
         return $this->redirectToRoute('reclamation');
     }
 
-    #[Route('/TriPD', name: 'app_tri_date')]
-    public function Tridate(ReclamationRepository $repository)
-    {
-$reclamation = $this->getDoctrine()
-->getRepository(Reclamation::class)
-->findAllOrderByDateDesc();
+    #[Route('/orderByDateDESC', name: 'app_reclamation_orderByDateDESC')]
+    public function orderByDateDESC( Request $request, ReclamationRepository $reclamationRepository , PaginatorInterface $paginator): Response
+    {        
+        $reclamation = $reclamationRepository->orderByDateDESC();
+        $page = $request->query->getInt('page', 1);
+        $form = $this->createForm(ReclamationFormType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $query = $form->getData()['query'];
+            if($query == ""){
+                $reclamation = $reclamationRepository->findAll();
+            }else{
+            $reclamation = $reclamationRepository->searchProduct($query);
+            }
+        }
+        $reclamation = $paginator->paginate($reclamation, $page, 3);
+        return $this->render('reclamation/front/reclamation_index.html.twig', [
+            'reclamations' => $reclamation,
+            'form' => $form->createView(),
+            
+        ]);
+    }
 
-        return $this->render("reclamation/front/reclamation_index.html.twig", array("reclamations" => $reclamation));
+    #[Route('/orderByDateASC', name: 'app_reclamation_orderByDateASC')]
+    public function orderByDateASC( Request $request, ReclamationRepository $reclamationRepository , PaginatorInterface $paginator): Response
+    {        
+        $reclamation = $reclamationRepository->orderByDateASC();
+        $page = $request->query->getInt('page', 1);
+        $form = $this->createForm(ReclamationFormType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $query = $form->getData()['query'];
+            if($query == ""){
+                $reclamation = $reclamationRepository->findAll();
+            }else{
+                $reclamation = $reclamationRepository->searchProduct($query);
+            }
+        }
+        $reclamation = $paginator->paginate($reclamation, $page, 3);
+        return $this->render('reclamation/front/reclamation_index.html.twig', [
+            'reclamations' => $reclamation,
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route('/sms/{id}', name: 'app_sms')]
@@ -205,4 +240,118 @@ $reclamation = $this->getDoctrine()
         ]);
 
     }
+    #[Route('/rechercheAjax', name: 'rechercheAjax')]
+    public function searchAjax(Request $request,ReclamationRepository $repo,PaginatorInterface $paginator)
+    {
+        // Récupérez le paramètre de recherche depuis la requête
+        $query = $request->query->get('q');
+        // Récupérez les plats correspondants depuis la base de données
+        $reclamation = $paginator->paginate(
+            $repo->findReclamationByRef($query), /* query NOT result */
+            $request->query->getInt('page', 1),
+            3);
+        $html =  $this->renderView("reclamation/front/reclamation_index.html.twig",[
+            "reclamations" => $reclamation,
+        ]);
+
+         return new Response($html);
+    }
+        
+
+/** PARTIE JSON */
+#[Route("/recdisplayJSON", name:"reclamation_displayJSON")]
+public function displayJSON(ReclamationRepository $repo, NormalizerInterface $normalizer)
+{
+    $reclamation = $repo->findAll();
+    $reclamationNormalises = $normalizer->normalize($reclamation, 'json', ['groups' => "reclamation"]);
+    $json= json_encode($reclamationNormalises);
+    return new Response($json);
+}
+
+#[Route("/recaddJSON", name:"reclamation_addJSON")]
+public function addJSON(Request $req, NormalizerInterface $Normalizer)
+{
+    $em = $this->getDoctrine()->getManager();
+
+// Récupération de la référence à insérer
+$reference = $req->get('reference');
+
+// Vérification si la référence existe déjà dans la base de données
+$reclamationExists = $em->getRepository(Reclamation::class)->findOneBy(['reference' => $reference]);
+
+// Si la réclamation existe déjà, retourner un message d'erreur
+if ($reclamationExists) {
+    return new Response('La réclamation existe déjà.', 409);
+}
+
+// Si la réclamation n'existe pas encore, créer une nouvelle réclamation
+$reclamation = new Reclamation();
+
+if (isset($reference)) {
+    $reclamation->setReference($reference);
+}
+
+$reclamation->setNomD($req->get('nomD') ?? '');
+$reclamation->setPrenomD($req->get('prenomD') ?? '');
+$reclamation->setCin(intval($req->get('cin') ?? 0));
+$reclamation->setEmail($req->get('email') ?? '');
+$reclamation->setCommentaire($req->get('commentaire') ?? '');
+$createdAt = new \DateTime($req->get('createdAt') ?? '');
+$reclamation->setCreatedAt($createdAt);
+$reclamation->setStatut($req->get('statut') ?? '');
+$reclamation->setFile($req->get('file') ?? '');
+$reclamation->setTel($req->get('tel') ?? '');
+$em->persist($reclamation);
+$em->flush();
+
+// Retourner la réponse JSON avec les données de la nouvelle réclamation
+$jsonContent = $Normalizer->normalize($reclamation, 'json', ['groups' => 'reclamation']);
+return new Response(json_encode($jsonContent));
+}
+
+#[Route("/receditJSON/{id}", name:"reclamation_editJSON")]
+public function editJSON(Request $req, $id, NormalizerInterface $Normalizer)
+{
+    $em = $this->getDoctrine()->getManager();
+    // Récupération de la référence à insérer
+$reference = $req->get('reference');
+
+// Vérification si la référence existe déjà dans la base de données
+$reclamationExists = $em->getRepository(Reclamation::class)->findOneBy(['reference' => $reference]);
+
+    $reclamation = $em->getRepository(Reclamation::class)->find($id);
+    if (isset($reference) && !$reclamationExists) { // vérification de l'existence de la référence dans la base de données
+        $reclamation->setReference($reference);
+    }
+    
+    $reclamation->setNomD($req->get('nomD') ?? '');
+    $reclamation->setPrenomD($req->get('prenomD') ?? '');
+    $reclamation->setCin(intval($req->get('cin') ?? 0));
+    $reclamation->setEmail($req->get('email') ?? '');
+    $reclamation->setCommentaire($req->get('commentaire') ?? '');
+    $createdAt = new \DateTime($req->get('createdAt') ?? '');
+    $reclamation->setCreatedAt($createdAt);
+    $reclamation->setStatut($req->get('statut') ?? '');
+    $reclamation->setFile($req->get('file') ?? '');
+    $reclamation->setTel($req->get('tel') ?? '');
+    $em->flush();
+
+    $jsonContent = $Normalizer->normalize($reclamation, 'json', ['groups' => 'reclamation']);
+    return new Response("Reclamation updated successfully" . json_encode($jsonContent));
+}
+
+#[Route("/recdeleteJSON/{id}", name:"reclamation_deleteJSON")]
+public function deleteJSON(Request $req, $id, NormalizerInterface $Normalizer)
+{
+    $em = $this->getDoctrine()->getManager();
+    $reclamation = $em->getRepository(Reclamation::class)->find($id);
+    $em->remove($reclamation);
+    $em->flush();
+
+    $jsonContent = $Normalizer->normalize($reclamation, 'json', ['groups' => 'reclamation']);
+    return new Response("Reclamation deleted successfully" . json_encode($jsonContent));
+}
+
+    
+    
 }

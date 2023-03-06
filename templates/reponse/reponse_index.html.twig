@@ -27,7 +27,7 @@
        <td>{{ reponse.idUser}}</td>
                    <td>{{ reponse.createdAt|date('Y-m-d     H:i')}}</td>
                     <td>{{ reponse.note }}</td>
-                    <td>{{ reponse.reclamation.reference }}</td>
+                  <td>{{ reponse.reclamation.reference ?? 'N/A' }}</td>
                  
    
                   
@@ -49,7 +49,7 @@
 
    
    
-    <a class="btn btn-primary" href="{{ path('reponse_new') }}"role="button">Créer une nouvelle réponse</a>
+  
          </div>
       </div>
     

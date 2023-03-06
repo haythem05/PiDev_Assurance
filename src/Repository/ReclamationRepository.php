@@ -47,13 +47,21 @@ class ReclamationRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
  
-public function findAllOrderByDateDesc()
-{
-    return $this->createQueryBuilder('r')
-        ->orderBy('r.createdAt', 'DESC')
-        ->getQuery()
-        ->getResult();
-}
+    public function orderByDateDESC() : array 
+    {
+        return $this->createQueryBuilder('r')
+                ->orderBy('r.createdAt','DESC')
+                ->getQuery()
+                ->getResult();
+    }
+
+    public function orderByDateASC() : array 
+    {
+        return $this->createQueryBuilder('r')
+                ->orderBy('r.createdAt','ASC')
+                ->getQuery()
+                ->getResult();
+    }
 
 
 public function sms($tel){
@@ -86,6 +94,11 @@ public function countByStatut()
     ;
     return $query->getQuery()->getResult();
 }
-
-
+public function findReclamationByRef($reference){
+    $qb = $this->createQueryBuilder("p")
+        ->where('p.reference LIKE :reference')
+        ->setParameter('reference', '%'.$reference.'%');
+        return $qb->getQuery()->getResult();
 }
+}
+

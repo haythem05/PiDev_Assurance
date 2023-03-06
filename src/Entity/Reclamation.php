@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 
@@ -20,6 +21,7 @@ class Reclamation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("reclamation")]
     private ?int $id = null;
 
    
@@ -28,6 +30,7 @@ class Reclamation
     #[Assert\Regex(
             pattern:"/^[a-zA-Z0-9]+$/"
         )]
+        #[Groups("reclamation")]
     private ?string $reference = null;
 
     #[ORM\Column(length: 255)]
@@ -36,7 +39,7 @@ class Reclamation
         pattern: '/^[a-zA-Z]+$/',
         message: 'Le nom ne doit contenir que des lettres.'
     )]
-
+    #[Groups("reclamation")]
     private ?string $nomD = null;
 
     #[ORM\Column(length: 255)]
@@ -45,6 +48,7 @@ class Reclamation
         pattern: '/^[a-zA-Z]+$/',
         message: 'Le prenom ne doit contenir que des lettres.'
     )]
+    #[Groups("reclamation")]
     private ?string $prenomD = null;
 
     #[ORM\Column]
@@ -53,13 +57,14 @@ class Reclamation
         pattern: '/^[0-9]{8}$/',
         message: 'CIN doit contenir exactement 8 chiffres sans caractères.'
     )]
+    #[Groups("reclamation")]
     private ?int $cin = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"email est obligatoire")]
     #[Assert\Email(message:"email n'est pas valide")]
 
-
+    #[Groups("reclamation")]
     private ?string $email = null;
 
     
@@ -71,22 +76,27 @@ class Reclamation
         minMessage:" Entrer 10 caractères au minimum"
     
          )]
+         #[Groups("reclamation")]
     private ?string $commentaire = null;
   
 
     #[ORM\Column]
+    #[Groups("reclamation")]
     private ?\DateTime $createdAt ;
 
    
 
     #[ORM\Column(length: 255)]
+    #[Groups("reclamation")]
     private ?string $statut = "En cours";
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups("reclamation")]
     private ?string $file = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"tel est obligatoire")]
+    #[Groups("reclamation")]
     private ?string $tel = null;
 
     #[ORM\OneToMany(mappedBy: 'Reclamation', targetEntity: Reponse::class)]

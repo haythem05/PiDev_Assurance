@@ -17,14 +17,15 @@
                     let recGraph = new Chart(reclamation, {
                         type: "pie",
                         data: {
-                            labels: {{ statuts|raw }},
+                            labels: {{ statut|raw }},
                             datasets: [{
                                 label: "Nombre de réclamation",
                                 data: {{ reclamationCount|raw }},
                                 backgroundColor: [
-                                    '#99d6ff',
-                                    '#ff6666',
-                                    '#66cc66'
+                                    
+                                    '#66cc66',
+                                    '#ffd700',
+                                    '#ff6666'
                                 ]
                             }]
                         },

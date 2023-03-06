@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReponseRepository::class)]
 class Reponse
@@ -17,10 +17,12 @@ class Reponse
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("reponse")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"idAdmin est obligatoire")]
+    #[Groups("reponse")]
     private ?string $idUser = null;
 
     #[ORM\Column(length: 255)]
@@ -30,14 +32,17 @@ class Reponse
        minMessage:" Entrer 10 caractères au minimum"
    
         )]
+        #[Groups("reponse")]
     private ?string $note = null;
 
   
 
     #[ORM\ManyToOne(inversedBy: 'reponses')]
+  
     private ?Reclamation $Reclamation = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups("reponse")]
     private ?\DateTimeInterface $createdAt = null;
 
     public function getId(): ?int

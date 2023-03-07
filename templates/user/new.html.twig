@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User
+{% endblock %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">Create new user</h5>
+			<form method="POST" class="row g-3" action="{{ path('app_user_new')}}">
+				{{ include('user/_form.html.twig', {'button_label': 'Create new user'}) }}
+			</form>
+		</div>
+	</div>
+
+	<a href="{{ path('app_user_index') }}">back to list</a>
+{% endblock %}

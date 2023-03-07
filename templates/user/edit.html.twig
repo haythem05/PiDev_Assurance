@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">Edit user</h5>
+			<form method="POST" class="row g-3" action="{{ path('app_user_edit', {'id': user.id}) }}">
+				{{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+			</form>
+			<a href="{{ path('app_user_index') }}">back to list</a>
+		</div>
+	</div>
+{% endblock %}

@@ -97,7 +97,18 @@ foreach ($messages as $message) {
                 ]);
             }
             
-
+            #[Route('/backrechercheAjax', name: 'backrechercheAjax')]
+            public function searchAjax(Request $request, ReclamationRepository $repo)
+            {
+            // Récupérez le paramètre de recherche depuis la requête
+            $query = $request->query->get('q');
+            // Récupérez les plats correspondants depuis la base de données
+            $reclamation = $repo->findReclamationByRef($query);
+            $html = $this->renderView("reclamation/back/back_index.html.twig", [
+            "reclamations" => $reclamation,
+            ]);
+            return new Response($html);
+        }
    
    
 }

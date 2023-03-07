@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <table id="results" class="table table-sm text-center">
+        <thead>
+            <tr>
+                <th>Id</th>
+ <th>idClient</th>
+ <th>DateDebut</th>
+ <th>DateFin</th>
+ <th>modele</th>
+ <th>marque</th>
+ <th>nbplace</th>
+ <th>DateCirculation</th>
+ <th>valeurCatalogue</th>
+ <th>Avantages</th>
+ <th>devis</th>
+ <th>Modifier</th>
+ <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {% for i in contrat %}
+              <td>{{i.id}}</td>
+              <td>{{i.idClient}}</td>
+              <td>{{i.DateDebut|date("d/m/Y")}}</td>
+              <td>{{i.DateFin|date("d/m/Y")}}</td>
+              <td>{{i.modele}}</td>
+              <td>{{i.marque}}</td>
+              <td>{{i.nbplace}}</td>
+              <td>{{i.DateCirculation|date("d/m/Y")}}</td>
+              <td>{{i.valeurCatalogue}}</td>
+              <td>{{i.avantages}}</td>
+              <td>{{i.prix}}</td>
+              <td><form action="{{ path('updateContrat',{'id':i.id}) }}">
+               <button>Modifier</button></form></td>
+              <td><form action="{{path('suppContrat',{'id':i.id }) }}">
+              <button>Supprimer</button></form></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

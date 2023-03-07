@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Generate PDF</h1>
+
+    <form action="{{ path('contract_pdf', {'id': contrat.id}) }}" method="POST">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Generate PDF</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<header class="section-header">
+          <div id="google_translate_element"></div>
+ <script type="text/javascript">
+ function googleTranslateElementInit() {
+new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
+                        }
+   </script>
+
+   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></p>
+        </header>
+<a href="{{ path('addContrat') }}" class="btn btn-primary">Ajouter</a>
+<div class="card">
+<div class="card-body">
+<h1 class="card-title">Contrats Véhicule</h1>
+
+<div class="card-body">
+    <div>
+    <input type="text" id="search" placeholder="Recherche par marque...">
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#search').keyup(function() {
+            var query = $(this).val();
+            $.ajax({
+                url: "{{ path('search_contrat') }}",
+                type: "POST",
+                data: {query: query},
+                success: function(data) {
+                    $('#results').html(data);
+                    $('#results').css('width', '100%');
+                    $('#results').css('position', 'static');
+                }
+            });
+        });
+    });
+</script>
+<table id="results"  class="table table-sm text-center table-bordered">
+<thead>
+<tr>
+ <th>Id</th>
+ <th>idClient</th>
+ <th>DateDebut</th>
+ <th>DateFin</th>
+ <th>modele</th>
+ <th>marque</th>
+ <th>nbplace</th>
+ <th>DateCirculation</th>
+ <th>valeurCatalogue</th>
+ <th>Avantages</th>
+ <th>devis</th>
+ <th>Modifier</th>
+ <th>Supprimer</th>
+
+</tr>
+</thead>
+        <tbody>
+<tr>
+ 
+  {% for i in contrat %}
+  <td>{{i.id}}</td>
+  <td>{{i.idClient}}</td>
+  <td>{{i.DateDebut|date("d/m/Y")}}</td>
+  <td>{{i.DateFin|date("d/m/Y")}}</td>
+  <td>{{i.modele}}</td>
+  <td>{{i.marque}}</td>
+  <td>{{i.nbplace}}</td>
+  <td>{{i.DateCirculation|date("d/m/Y")}}</td>
+  <td>{{i.valeurCatalogue}}</td>
+  <td>{{i.avantages}}</td>
+  <td>{{i.prix}}</td>
+  <td><form action="{{ path('updateContrat',{'id':i.id}) }}">
+    <button>Modifier</button></form></td>
+      <td><form action="{{path('suppContrat',{'id':i.id }) }}">
+    <button>Supprimer</button></form></td>
+</tr>
+{% endfor %}
+
+{% endblock %}

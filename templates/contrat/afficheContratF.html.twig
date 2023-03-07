@@ -1,0 +1,75 @@
+{% extends 'base2.html.twig' %}
+
+{% block Partie4 %}
+ <header class="section-header">
+          <div id="google_translate_element"></div>
+ <script type="text/javascript">
+ function googleTranslateElementInit() {
+new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
+                        }
+   </script>
+
+   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></p>
+        </header>
+
+ <div id="search-form-container" >
+            <form action="{{ path('searchf') }}" method="get">
+                <label for="marque">marque:</label>
+                <input type="text" id="marque" name="marque" value="{{ app.request.query.get('marque') }}" />
+                <br>
+                <label for="prixMin">Minimum Price:</label>
+                <input type="text" id="prixMin" name="prixMin" value="{{ app.request.query.get('prixMin') }}" />
+                <br>
+                <label for="prixMax">Maximum Price:</label>
+                <input type="text" id="prixMax" name="prixMax" value="{{ app.request.query.get('prixMax') }}" />
+                <br>
+                <button type="submit">Search</button>
+            </form>
+
+            </div>
+
+            <script>
+                const showSearchBtn = document.getElementById('show-search-btn');
+                const searchFormContainer = document.getElementById('search-form-container');
+
+                showSearchBtn.addEventListener('click', () => {
+                    searchFormContainer.style.display = 'block';
+                });
+            </script>
+
+
+ 
+<table id="results"  class="table table-striped" >
+  <tr>
+  
+    <th>DateDebut</th>
+    <th>DateFin</th>
+    <th>nombre de places</th>
+    <th>marque</th>
+    <th>Avantages</th>
+    <th>Devis(Dt)</th>
+    <th>optional</th>
+
+  </tr>
+  
+  {% for i in contrats %}
+  <tr>
+
+
+    <td>{{i.DateDebut|date("d/m/Y")}}</td>
+    <td>{{i.DateFin|date("d/m/Y")}}</td>
+    <td>{{i.nbplace}}</td>
+    <td>{{i.marque}}</td>
+    <td>{{i.avantages}}</td>
+    <td>{{i.prix}}</td>
+    <td>
+<a  href="{{ path('contract_pdf', {'id': i.id}) }}" class="btn btn-primary">Generate PDF</a>
+
+</td>
+  </tr>
+
+
+  {% endfor %}
+</table>
+
+{% endblock %}

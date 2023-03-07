@@ -1,0 +1,45 @@
+{% extends 'base2.html.twig' %}
+{% block Partie2 %}
+<header class="section-header">
+          <div id="google_translate_element"></div>
+ <script type="text/javascript">
+ function googleTranslateElementInit() {
+new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
+                        }
+   </script>
+
+   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></p>
+        </header>
+<a href="{{ path('addH') }}" class="btn btn-primary">Ajouter</a>
+<div class="card">
+<div class="card-body">
+<h1 class="card-title">Habitations</h1>
+<table class="table table-sm text-center table-bordered">
+<thead>
+  <tr>
+    <th>Id</th>
+    <th>idClient</th>
+    <th>nbPieceImmobilier</th>
+    <th>capitalImmobilier</th>
+    <th>capitalMobilier</th>
+    <th>devis</th>
+    <th>Annuler</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for i in habitations %}
+    <tr>
+      <td>{{i.id}}</td>
+      <td>{{i.idClient}}</td>
+      <td>{{i.nbPieceImmobilier}}</td>
+      <td>{{i.capitalImmobilier}}</td>
+      <td>{{i.capitalMobilier}}</td>
+      <td>{{i.devis}}</td>
+      <td><a href="{{ path('suppHF', {'id': i.id}) }}"><i class="ri-delete-bin-2-fill" style="font-size: 1.5em;"></i></a></td>
+    </tr>
+  {% endfor %}
+  <tbody>
+</table>
+</div>
+</div>
+{% endblock %}

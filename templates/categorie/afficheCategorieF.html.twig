@@ -1,0 +1,36 @@
+{% extends 'base2.html.twig' %}
+{% block Partie2 %}
+
+<div class="card">
+<div class="card-body">
+<h1 class="card-title">Catégorie</h1>
+<table class="table table-sm text-center table-bordered">
+
+    <tbody>
+    {% for i in categories %}
+        <tr>
+            
+        
+            {% if i.categorieImage %}
+                <td><img src="{{ asset('uploads/images/categorie/' ~ i.categorieImage) }}" style="width:100px;height:100px;"></td>
+            {% else %}
+                <td>No image available</td>
+            {% endif %}
+             <td>{{ i.description }}
+        
+           
+             
+        </tr>
+             
+    {% endfor %}
+   
+    </tbody>
+
+</table>
+<div class="text-center">
+     <a href="{{ path('afficheContratF') }}" class="btn btn-primary">Consulter les contrats automobiles</a>
+        <a href="{{ path('addH') }}" class="btn btn-primary">Consulter les contrats d'habitation</a>
+</div>F
+</div>
+    </div>
+{% endblock %}

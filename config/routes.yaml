@@ -1,0 +1,56 @@
+controllers:
+    resource: ../src/Controller/
+    type: attribute
+app_contract_show:
+    path: '/AssuranceHabitation/{AssuranceHabitation}'
+    controller: 'App\Controller\AssuranceHabitationController::show'
+
+#  Tri IdClient asc
+assurance_habitation_display_sorted_by_IdClient_asc:
+    path: '/assurance_habitation/sorted_by_IdClient_asc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByIdClientASC
+
+#  Tri NbPieceImmobilier asc
+assurance_habitation_display_sorted_by_NbPieceImmobilier_asc:
+    path: '/assurance_habitation/sorted_by_NbPieceImmobilier_asc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByNbPieceImmobilierASC
+
+#  Tri CapitalImmobilier asc
+assurance_habitation_display_sorted_by_CapitalImmobilier_asc:
+    path: '/assurance_habitation/sorted_by_CapitalImmobilier_asc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByCapitalImmobilierASC
+
+#  Tri CapitalMobilier asc
+assurance_habitation_display_sorted_by_CapitalMobilier_asc:
+    path: '/assurance_habitation/sorted_by_CapitalMobilier_asc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByCapitalMobilierASC
+
+#  Tri Devis asc
+assurance_habitation_display_sorted_by_Devis_asc:
+    path: '/assurance_habitation/sorted_by_Devis_asc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByDevisASC
+
+#  Tri IdClient desc
+assurance_habitation_display_sorted_by_IdClient_desc:
+    path: '/assurance_habitation/sorted_by_IdClient_desc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByIdClientDESC
+
+#  Tri NbPieceImmobilier desc
+assurance_habitation_display_sorted_by_NbPieceImmobilier_desc:
+    path: '/assurance_habitation/sorted_by_NbPieceImmobilier_desc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByNbPieceImmobilierDESC
+
+#  Tri CapitalImmobilier desc
+assurance_habitation_display_sorted_by_CapitalImmobilier_desc:
+    path: '/assurance_habitation/sorted_by_CapitalImmobilier_desc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByCapitalImmobilierDESC
+
+#  Tri CapitalMobilier desc
+assurance_habitation_display_sorted_by_CapitalMobilier_desc:
+    path: '/assurance_habitation/sorted_by_CapitalMobilier_desc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByCapitalMobilierDESC
+
+#  Tri Devis desc
+assurance_habitation_display_sorted_by_Devis_desc:
+    path: '/assurance_habitation/sorted_by_Devis_desc'
+    controller: App\Controller\AssuranceHabitationController::displaySortedByDevisDESC

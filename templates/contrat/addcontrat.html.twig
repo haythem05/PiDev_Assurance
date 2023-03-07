@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<div class="card">
+        <div class="card-body">
+<h1 class="card-title">Ajouter un Contrat </h1>
+     {{ form_start(f,{'attr': {'novalidate': 'novalidate'}}) }}
+            <div class="col-md-12">
+             {{form_label(f.idClient,"ID client")}}
+             {{form_widget(f.idClient)}}
+             {{form_errors(f.idClient)}}
+             </div>
+              <div class="col-12">
+             {{form_label(f.dateDebut,"Date début")}}
+             {{form_widget(f.dateDebut)}}
+             {{form_errors(f.dateDebut)}}
+             </div>
+             <div class="col-12">
+             {{form_label(f.dateFin,"Date fin")}}
+             {{form_widget(f.dateFin)}}
+             {{form_errors(f.dateFin)}}
+             </div>
+             <div class="col-md-6">
+             {{form_label(f.avantages,"Avantage")}}
+             {{form_widget(f.avantages)}}
+             {{form_errors(f.avantages)}}
+             </div>
+             <div class="col-md-6">
+             {{form_label(f.type,"Type")}}
+             {{form_widget(f.type)}}
+             {{form_errors(f.type)}}
+             </div>
+              <div class="col-md-12">
+             {{form_label(f.marque,"Marque")}}
+             {{form_widget(f.marque)}}
+             {{form_errors(f.marque)}}
+             </div>
+              <div class="col-12">
+             {{form_label(f.modele,"Modèle")}}
+             {{form_widget(f.modele)}}
+             {{form_errors(f.modele)}}
+             </div>
+             <div class="col-12">
+             {{form_label(f.nbPlace,"Nombre de place")}}
+             {{form_widget(f.nbPlace)}}
+             {{form_errors(f.nbPlace)}}
+             </div>
+             <div class="col-md-6">
+             {{form_label(f.DateCirculation,"Date circulation")}}
+             {{form_widget(f.DateCirculation)}}
+             {{form_errors(f.DateCirculation)}}
+             </div>
+             <div class="col-md-6">
+             {{form_label(f.valeurCatalogue,"Valeur catalogue")}}
+             {{form_widget(f.valeurCatalogue)}}
+             {{form_errors(f.valeurCatalogue)}}
+             </div>
+       
+             <div class="text-center">
+            {{form_widget(f.save)}}
+            <a href="{{ path('afficheContrat') }}"><button type="button" class="btn btn-outline-secondary">Retour</button></a>
+            </div>
+             </div>
+             {{ form_end(f) }}
+             </div>
+{% endblock %}

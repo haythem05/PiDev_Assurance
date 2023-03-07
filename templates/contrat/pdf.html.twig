@@ -1,0 +1,83 @@
+<style>
+    h1 {
+        font-size: 36px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    p {
+        font-size: 18px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+    
+    strong {
+        font-weight: bold;
+    }
+    
+    .section-header {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+    }
+    
+    .section-content {
+        margin-left: 30px;
+    }
+    
+    .price {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 30px;
+    }
+
+    /* add styles for logo and contact information */
+    .logo {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 100px;
+        height: auto;
+    }
+
+    .contact-info {
+        position: absolute;
+        top: 20px;
+        right: 130px;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+</style>
+<!-- add logo and contact information -->
+<img src="C:\xampp\htdocs\PiDev33\public\test.png" class="logo">
+<div class="contact-info">
+    <p>Contact Information:</p>
+    <p>Address: 123 Main St.</p>
+    <p>Phone: 555-1234</p>
+    <p>Email: info@example.com</p>
+</div>
+<h1>Contrat Details</h1>
+<div class="section-header">Basic Information</div>
+<div class="section-content">
+    <p><strong>Id:</strong> {{ contrat.id }}</p>
+    <p><strong>Client:</strong> {{ contrat.idClient }}</p>
+    <p><strong>Date Début:</strong> {{ contrat.DateDebut|date("d/m/Y") }}</p>
+    <p><strong>Date Fin:</strong> {{ contrat.DateFin|date("d/m/Y") }}</p>
+</div>
+<div class="section-header">Vehicle Information</div>
+<div class="section-content">
+    <p><strong>Modèle:</strong> {{ contrat.modele }}</p>
+    <p><strong>Marque:</strong> {{ contrat.marque }}</p>
+    <p><strong>Nombre de places:</strong> {{ contrat.nbplace }}</p>
+    <p><strong>Date de circulation:</strong> {{ contrat.DateCirculation|date("d/m/Y") }}</p>
+    <p><strong>Valeur catalogue:</strong> {{ contrat.valeurCatalogue }}</p>
+</div>
+<div class="section-header">Additional Information</div>
+<div class="section-content">
+    <p><strong>Avantages:</strong> {{ contrat.avantages }}</p>
+</div>
+<div class="price">Devis: {{ contrat.prix }}</div>

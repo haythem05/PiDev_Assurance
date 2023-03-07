@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<header class="section-header">
+          <div id="google_translate_element"></div>
+ <script type="text/javascript">
+ function googleTranslateElementInit() {
+new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
+                        }
+   </script>
+
+   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></p>
+        </header>
+
+
+<div class="input-group"><div class="col-md-6"><select id="tri" onchange="sortContratHabitation()" class="form-select">
+  <option value="">Choisissez un tri</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_IdClient_asc') }}">idClient croissant</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_IdClient_desc') }}">idClient décroissant</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_NbPieceImmobilier_asc') }}">nbPieceImmobilier croissant</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_NbPieceImmobilier_desc') }}">nbPieceImmobilier décroissant</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_CapitalImmobilier_asc') }}">capitalImmobilier croissant</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_CapitalImmobilier_desc') }}">capitalImmobilier décroissant</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_CapitalMobilier_asc') }}">capitalMobilier décroissant</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_CapitalMobilier_desc') }}">capitalMobilier décroissant</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_Devis_asc') }}">devis décroissant</option>
+  <option value="{{ path('assurance_habitation_display_sorted_by_Devis_desc') }}">devis décroissant</option>
+</select></div>
+
+
+
+<a href="{{ path('addH') }}" class="btn btn-primary">Ajouter</a>
+<div class="card">
+<div class="card-body">
+<h1 class="card-title">Habitations</h1>
+<table class="table table-sm text-center table-bordered">
+<thead>
+  <tr>
+    <th>Id</th>
+    <th>idClient</th>
+    <th>nbPieceImmobilier</th>
+    <th>capitalImmobilier</th>
+    <th>capitalMobilier</th>
+    <th>devis</th>
+    <th>Modifier</th>
+    <th>Supprimer</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for i in habitations %}
+    <tr>
+      <td>{{i.id}}</td>
+      <td>{{i.idClient}}</td>
+      <td>{{i.nbPieceImmobilier}}</td>
+      <td>{{i.capitalImmobilier}}</td>
+      <td>{{i.capitalMobilier}}</td>
+      <td>{{i.devis}}</td>
+       <td><a href="{{ path('updateH', {'id': i.id}) }}"><i class="ri-pencil-fill" style="font-size: 1.5em;"></i></a></td>
+      <td><a href="{{ path('suppH', {'id': i.id}) }}"><i class="ri-delete-bin-2-fill" style="font-size: 1.5em;"></i></a></td>
+    </tr>
+  {% endfor %}
+  <tbody>
+</table>
+
+
+<script>
+function sortContratHabitation() {
+  var select = document.getElementById("tri");
+  var selectedOption = select.options[select.selectedIndex];
+  window.location.href = selectedOption.value;
+}
+</script>
+   
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<header class="section-header">
+          <div id="google_translate_element"></div>
+ <script type="text/javascript">
+ function googleTranslateElementInit() {
+new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
+                        }
+   </script>
+
+   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></p>
+        </header>
+        <div class="card">
+        <div class="card-body">
+<h1 class="card-title">Ajouter une Categorie</h1>
+{{ form_start(form,{'attr': {'novalidate': 'novalidate', 'enctype': 'multipart/form-data','class':'row g-3'}}) }}
+            <div class="col-md-12">
+             {{form_label(form.nom,"Nom")}}
+             {{form_widget(form.nom)}}
+             {{form_errors(form.nom)}}
+             </div>
+            <div class="col-12">
+             {{form_label(form.categorieImage,"Catégorie d'image")}}
+             {{form_widget(form.categorieImage)}}
+             {{form_errors(form.categorieImage)}}
+            </div>
+            <div class="text-center">
+            {{form_widget(form.save)}}
+            <a href="{{ path('afficheCategorie') }}"><button type="button" class="btn btn-outline-secondary">Retour</button></a>
+            </div>
+   
+{{ form_end(form) }}
+</div>
+{% endblock %}

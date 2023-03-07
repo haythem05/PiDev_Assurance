@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+        <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Ajouter un compte</h1>
+            {{ form_start(form,{'attr': {'novalidate': 'novalidate','class':'row g-3'}}) }}
+            <div class="col-md-12">
+             {{form_label(form.codeCompte,"Code du compte")}}
+             {{form_widget(form.codeCompte)}}
+             {{form_errors(form.codeCompte)}}
+             </div>
+              <div class="col-12">
+             {{form_label(form.numeroCompte,"Numéro du compte")}}
+             {{form_widget(form.numeroCompte)}}
+             {{form_errors(form.numeroCompte)}}
+             </div>
+             <div class="col-12">
+             {{form_label(form.nomCompte,"Nom du compte")}}
+             {{form_widget(form.nomCompte)}}
+             {{form_errors(form.nomCompte)}}
+             </div>
+             <div class="col-md-6">
+             {{form_label(form.typeCompte,"Type du compte")}}
+             {{form_widget(form.typeCompte)}}
+             {{form_errors(form.typeCompte)}}
+             </div>
+             <div class="col-md-6">
+             {{form_label(form.soldeCompte,"Solde du compte")}}
+             {{form_widget(form.soldeCompte)}}
+             {{form_errors(form.soldeCompte)}}
+             </div>
+             
+            <div class="text-center">
+            {{form_widget(form.submit)}}
+            <a href="{{ path('comptecomptable_display') }}"><button type="button" class="btn btn-outline-secondary">Retour</button></a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+{% endblock %}

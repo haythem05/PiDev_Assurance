@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Modifier une sous-classe</h1>
+        <div class="container">
+            {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+
+    <button class="btn"><a href="{{ path('sousclasse_display') }}">Retour</a></button>
+{% endblock %}

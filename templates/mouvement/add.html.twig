@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+
+{% block content %}
+        {% if app.session.flashbag.peek('error') is not empty %}
+            <div class="alert alert-danger">
+                {% for flash_message in app.session.flashbag.get('error') %}
+                    {{ flash_message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Ajouter un mouvement</h1>
+            {{ form_start(form,{'attr': {'novalidate': 'novalidate','class':'row g-3'}}) }}
+            <div class="col-md-12">
+             {{form_label(form.dateMouvement,"Date du mouvement")}}
+             {{form_widget(form.dateMouvement)}}
+             {{form_errors(form.dateMouvement)}}
+             </div>
+             <div class="col-md-6">
+             {{form_label(form.compteDebit,"Compte débité")}}
+             {{form_widget(form.compteDebit)}}
+             {{form_errors(form.compteDebit)}}
+             </div>
+             <div class="col-md-6">
+             {{form_label(form.compteCredit,"Compte crédité")}}
+             {{form_widget(form.compteCredit)}}
+             {{form_errors(form.compteCredit)}}
+             </div><div class="col-12">
+             {{form_label(form.referenceMouvement,"Référence du mouvement")}}
+             {{form_widget(form.referenceMouvement)}}
+             {{form_errors(form.referenceMouvement)}}
+             </div>
+             <div class="col-12">
+             {{form_label(form.montantMouvement,"Montant du mouvement")}}
+             {{form_widget(form.montantMouvement)}}
+             {{form_errors(form.referenceMouvement)}}
+             </div>
+             
+            <div class="text-center">
+            {{form_widget(form.submit)}}
+            <a href="{{ path('mouvement_display') }}"><button type="button" class="btn btn-outline-secondary">Retour</button></a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<h2>Ajouter une nouvelle sous-classe</h2>
+    <button class="btn"><a href="{{ path('sousclasse_add') }}">Ajouter</a></button>
+    
+<h1>Tableau des sous-classes</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Nom</th>
+                <th>Classe</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sousclass in sousclasse %}
+                <tr>
+                    <td>{{ sousclass.codeSousClasse }}</td>
+                    <td>{{ sousclass.nomSousClasse }}</td>
+                    <td>{{ sousclass.classeSousClasse.nomClasse }}</td>
+                    <td>
+                    <button class="btn"><a href="{{ path('sousclasse_delete', {'id': sousclass.id}) }}">Spprimer</a></button>
+                    <button class="btn"><a href="{{ path('sousclasse_edit', {'id': sousclass.id}) }}">Modifier</a></button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

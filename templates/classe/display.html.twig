@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<h2>Ajouter une nouvelle classe</h2>
+    <button class="btn"><a href="{{ path('classe_add') }}">Ajouter</a></button>
+    
+<h1>Tableau des classes</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for class in classe %}
+                <tr>
+                    <td>{{ class.idClasse }}</td>
+                    <td>{{ class.nomClasse }}</td>
+                    <td>
+                    <button class="btn"><a href="{{ path('classe_delete', {'id': class.id}) }}">Spprimer</a></button>
+                    <button class="btn"><a href="{{ path('classe_edit', {'id': class.id}) }}">Modifier</a></button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

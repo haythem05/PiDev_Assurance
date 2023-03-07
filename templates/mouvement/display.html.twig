@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+{% if app.session.flashBag.has('error') %}
+    <div class="alert alert-danger">
+        {{ app.session.flashBag.get('error')[0] }}
+    </div>
+{% endif %}
+{% for type, messages in app.flashes() %}
+    {% for message in messages %}
+        {% if type == 'success' %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+<a href="{{ path('mouvement_add') }}">Ajouter un nouveau mouvement</a>
+<div class="card">        
+<div class="card-body">
+<h1 class="card-title">Journal Comptable</h1>
+     <button class="btn btn-primary" onclick="printTable()">Imprimer le tableau</button>
+
+
+    <script>
+        function printTable() {
+        var table = document.getElementById('mouvements');
+        var html = table.outerHTML;
+        document.body.innerHTML = html;
+        window.print();
+        }
+    </script>
+    <table id="mouvements" class="table table-sm text-center">
+        <thead>
+            <tr>
+                <th>Reference</th>
+                <th>Date</th>
+                <th>Montant</th>
+                <th>Compte Debit</th>
+                <th>Compte Credit</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mouvemen in mouvement %}
+                <tr>
+                    <td>{{ mouvemen.referenceMouvement }}</td>
+                    <td>{{ mouvemen.dateMouvement|date("d/m/Y") }}</td>
+                    <td>{{ mouvemen.montantMouvement }}</td>
+                    <td>{{ mouvemen.compteDebit.nomCompte }}</td>
+                    <td>{{ mouvemen.compteCredit.nomCompte }}</td>
+                    <td>
+                    <a href="{{ path('mouvement_delete', {'id': mouvemen.id}) }}"><i class="ri-delete-bin-2-fill" style="font-size: 1.5em;"></i></a>
+                    <a href="{{ path('mouvement_edit', {'id': mouvemen.id}) }}"><i class="ri-pencil-fill" style="font-size: 1.5em;"></i></a>
+                    <form action="{{ path('pay_mouvement', {'id': mouvemen.id}) }}" method="post" style="display: inline;">
+                            <script
+                                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                data-key="pk_test_51Mi1UQFkmBkIAttrJLkRoKXoYCIRXdSjNe1qWqCarZ2Rx72V8POBrEtpsIlJLNZv2H4tq5vYrtr3a01NNjZ6yCgo00NT07QcNJ"
+                                data-amount="{{ mouvemen.montantMouvement * 100 }}"
+                                data-name="{{mouvemen.referenceMouvement}}"
+                                data-description="Paiement pour le mouvement"
+                            </script>
+                    </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+{% endblock %}

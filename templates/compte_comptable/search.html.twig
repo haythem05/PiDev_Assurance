@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <table id="results" class="table table-sm text-center">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Numero</th>
+                <th>Nom</th>
+                <th>Solde</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comptecomptabl in comptecomptable %}
+                <tr>
+                    <td>{{ comptecomptabl.codeCompte }}</td>
+                    <td>{{ comptecomptabl.numeroCompte }}</td>
+                    <td>{{ comptecomptabl.nomCompte }}</td>
+                    <td>{{ comptecomptabl.soldeCompte }}</td>
+                    <td>{{ comptecomptabl.typeCompte }}</td>
+                    <td>
+                    <a href="{{ path('comptecomptable_delete', {'id': comptecomptabl.id}) }}"><i class="ri-delete-bin-2-fill" style="font-size: 1.5em;"></i></a>
+                    <a href="{{ path('comptecomptable_edit', {'id': comptecomptabl.id}) }}"><i class="ri-pencil-fill" style="font-size: 1.5em;"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,3 +1,68 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+
+
+#  Tri code asc
+compte_comptable_display_sorted_by_code_asc:
+    path: '/compte_comptable/sorted_by_code_asc'
+    controller: App\Controller\CompteComptableController::displaySortedByCodeASC
+
+#  Tri numero asc
+compte_comptable_display_sorted_by_numero_asc:
+    path: '/compte_comptable/sorted_by_numero_asc'
+    controller: App\Controller\CompteComptableController::displaySortedByNumeroASC
+
+#  Tri nom asc
+compte_comptable_display_sorted_by_nom_asc:
+    path: '/compte_comptable/sorted_by_nom_asc'
+    controller: App\Controller\CompteComptableController::displaySortedByNomASC
+
+#  Tri solde asc
+compte_comptable_display_sorted_by_solde_asc:
+    path: '/compte_comptable/sorted_by_solde_asc'
+    controller: App\Controller\CompteComptableController::displaySortedBySoldeASC
+
+#  Tri type asc
+compte_comptable_display_sorted_by_type_asc:
+    path: '/compte_comptable/sorted_by_type_asc'
+    controller: App\Controller\CompteComptableController::displaySortedByTypeASC
+
+
+
+#  Tri code desc
+compte_comptable_display_sorted_by_code_desc:
+    path: '/compte_comptable/sorted_by_code_desc'
+    controller: App\Controller\CompteComptableController::displaySortedByCodeDESC
+
+#  Tri numero desc
+compte_comptable_display_sorted_by_numero_desc:
+    path: '/compte_comptable/sorted_by_numero_desc'
+    controller: App\Controller\CompteComptableController::displaySortedByNumeroDESC
+
+#  Tri nom desc
+compte_comptable_display_sorted_by_nom_desc:
+    path: '/compte_comptable/sorted_by_nom_desc'
+    controller: App\Controller\CompteComptableController::displaySortedByNomDESC
+
+#  Tri solde desc
+compte_comptable_display_sorted_by_solde_desc:
+    path: '/compte_comptable/sorted_by_solde_desc'
+    controller: App\Controller\CompteComptableController::displaySortedBySoldeDESC
+
+#  Tri type desc
+compte_comptable_display_sorted_by_type_desc:
+    path: '/compte_comptable/sorted_by_type_desc'
+    controller: App\Controller\CompteComptableController::displaySortedByTypeDESC
+
+# Stats
+comptecomptable_stats:
+    path: /comptecomptable/stats
+    controller: App\Controller\CompteComptableController::stats
+
+#PAIEMENT STRIPE
+pay_mouvement:
+    path: '/mouvement/{id}/pay'
+    controller: 'App\Controller\MouvementController::pay'
+    methods: ['POST']

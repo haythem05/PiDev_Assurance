@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<a href="{{ path('comptecomptable_add') }}">Ajouter un nouveau compte</a>
+<div id="results" class="card">
+  <div class="card-body">
+    <h1 class="card-title">Plan Comptable</h1> 
+
+        <div class="card-body">
+    <div>
+    <input type="text" id="search" class="form-control" placeholder="Recherche par numéro">
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#search').keyup(function() {
+            var query = $(this).val();
+            $.ajax({
+                url: "{{ path('search_compte') }}",
+                type: "POST",
+                data: {query: query},
+                success: function(data) {
+                    $('#results').html(data);
+                    $('#results').css('width', '100%');
+                    $('#results').css('position', 'static');
+                }
+            });
+        });
+    });
+</script>
+
+
+    <div class="input-group"><div class="col-md-6"><select id="tri" onchange="sortComptes()" class="form-select">
+  <option value="">Choisissez un tri</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_code_asc') }}">Code croissant</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_numero_asc') }}">Numero croissant</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_nom_asc') }}">Nom croissant</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_solde_asc') }}">Solde croissant</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_type_asc') }}">Type croissant</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_code_desc') }}">Code décroissant</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_numero_desc') }}">Numero décroissant</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_nom_desc') }}">Nom décroissant</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_solde_desc') }}">Solde décroissant</option>
+  <option value="{{ path('compte_comptable_display_sorted_by_type_desc') }}">Type décroissant</option>
+</select></div>
+<div class="input-group-append"><a href="{{ path('generate_excel') }}" class="btn btn-primary">Download Excel</a>
+    </div>
+     </div>
+      </div>
+    <table class="table table-sm text-center">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Numero</th>
+                <th>Nom</th>
+                <th>Solde</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comptecomptabl in comptecomptable %}
+                <tr>
+                    <td>{{ comptecomptabl.codeCompte }}</td>
+                    <td>{{ comptecomptabl.numeroCompte }}</td>
+                    <td>{{ comptecomptabl.nomCompte }}</td>
+                    <td>{{ comptecomptabl.soldeCompte }}</td>
+                    <td>{{ comptecomptabl.typeCompte }}</td>
+                    <td>
+                    <a href="{{ path('comptecomptable_delete', {'id': comptecomptabl.id}) }}"><i class="ri-delete-bin-2-fill" style="font-size: 1.5em;"></i></a>
+                    <a href="{{ path('comptecomptable_edit', {'id': comptecomptabl.id}) }}"><i class="ri-pencil-fill" style="font-size: 1.5em;"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+<script>
+function sortComptes() {
+  var select = document.getElementById("tri");
+  var selectedOption = select.options[select.selectedIndex];
+  window.location.href = selectedOption.value;
+}
+
+</script>
+    </div>
+    <button class="btn"><a href="{{ path('comptecomptable_stats') }}">Génerer statistiques</a></button>
+{% endblock %}

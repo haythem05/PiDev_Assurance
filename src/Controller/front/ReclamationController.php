@@ -49,7 +49,7 @@ class ReclamationController extends AbstractController
     
 
      #[Route('/reclamation_new', name: 'reclamation_new')]
-    public function new(Request $request, SessionInterface $session): Response
+    public function new(Request $request, SessionInterface $session,ReclamationRepository $reclamationRepository): Response
     {
         $reclamation = new Reclamation();
         $form = $this->createForm(ReclamationFormType::class, $reclamation);

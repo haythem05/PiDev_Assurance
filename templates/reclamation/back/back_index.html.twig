@@ -3,9 +3,10 @@
 {% block title %}Liste des réclamations{% endblock %}
 
 {% block body %}
-
+<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:25px; margin-left:1200px;  ">
 <div class="row">
-<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:45px; margin-left:310px; padding:45px;  ">
+<div class="row">
+
 
 <div class="card-body">
 <a href="{{ path('reclamation_stat') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-sort-amount-up"></i>Stat</a>
@@ -33,6 +34,49 @@
   {% for reclamation in reclamations %}
 
     <tr>
+<div id="flash-message-{{ reclamation.id }}" class="alert alert-success alert-dismissible fade show" role="alert">
+    {% if reclamation.statut == 'En cours' %}
+        La réclamation "{{ reclamation.reference }}" est en cours de traitement.
+    {% elseif reclamation.statut == 'approuvée' %}
+        La réclamation "{{ reclamation.reference }}" a été approuvée.
+        {% set session = app.request.session %}
+        {% set flashbag = session.getFlashBag() %}
+        {% set success_messages = flashbag.get('success') %}
+        {% for message in success_messages %}
+            {% if message['reference'] == reclamation.reference %}
+                {% set success_messages = success_messages|filter(message => message['reference'] != reclamation.reference) %}
+                {% set _ = flashbag.set('success', success_messages) %}
+            {% endif %}
+        {% endfor %}
+    {% elseif reclamation.statut == 'refusée' %}
+        La réclamation "{{ reclamation.reference }}" a été refusée.
+        {% set session = app.request.session %}
+        {% set flashbag = session.getFlashBag() %}
+        {% set success_messages = flashbag.get('success') %}
+        {% for message in success_messages %}
+            {% if message['reference'] == reclamation.reference %}
+                {% set success_messages = success_messages|filter(message => message['reference'] != reclamation.reference) %}
+                {% set _ = flashbag.set('success', success_messages) %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeNotification({{ reclamation.id }})">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<script>
+    function closeNotification(notificationId) {
+        var notification = document.querySelector("#flash-message-" + notificationId);
+        notification.remove();
+    }
+</script>
+</body>
+
+
+
+
        <td>{{ reclamation.reference }}</td>
                     <td>{{ reclamation.nomD }}</td>
                     <td>{{ reclamation.prenomD }}</td>
@@ -77,6 +121,7 @@
                       <td><button class="btn btn-success" onclick="window.location.href='{{ path('reponse_new', {'reference': reclamation.reference}) }}'">Repondre</button></td>
                  
                 </tr>
+
             {% endfor %}
         </tbody>
     </table>

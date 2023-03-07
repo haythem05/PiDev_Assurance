@@ -31,7 +31,16 @@ class ReclamationController extends AbstractController
         $reclamation = $entityManager->getRepository(Reclamation::class)->find($id);
         $reclamation->setStatut('approuvée');
         $entityManager->flush();
-        
+        // Suppression de la notification associée
+    $session = $request->getSession();
+    $flashBag = $session->getFlashBag();
+    $messages = $flashBag->get('success');
+    foreach ($messages as $message) {
+        $reclamationReference = $reclamation->getReference();
+        if (strpos($message['message'], $reclamationReference) !== false&& strpos($message['message'], 'En cours') !== false) {
+            $flashBag->remove('success', $message);
+        }
+    }
     
       
         return $this->redirectToRoute('back_reclamation');
@@ -45,7 +54,17 @@ class ReclamationController extends AbstractController
                 $reclamation = $entityManager->getRepository(Reclamation::class)->find($id);
                 $reclamation->setStatut('refusée');
                 $entityManager->flush();
-                
+             
+// Suppression de la notification associée
+$session = $request->getSession();
+$flashBag = $session->getFlashBag();
+$messages = $flashBag->get('success');
+foreach ($messages as $message) {
+    $reclamationReference = $reclamation->getReference();
+    if (strpos($message['message'], $reclamationReference) !== false && strpos($message['message'], 'En cours') !== false) {
+        $flashBag->remove('success', $message);
+    }
+    }
             
               
                 return $this->redirectToRoute('back_reclamation');

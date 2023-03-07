@@ -17,6 +17,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 class ReclamationController extends AbstractController
@@ -24,6 +25,7 @@ class ReclamationController extends AbstractController
     #[Route('/reclamation', name: 'reclamation')]
     public function index(ReclamationRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
+        
         $reclamation = $paginator->paginate(
             $reclamation = $repository->findAll(),
             $page = $request->query->getInt('page', 1),
@@ -47,7 +49,7 @@ class ReclamationController extends AbstractController
     
 
      #[Route('/reclamation_new', name: 'reclamation_new')]
-    public function new(Request $request): Response
+    public function new(Request $request, SessionInterface $session): Response
     {
         $reclamation = new Reclamation();
         $form = $this->createForm(ReclamationFormType::class, $reclamation);
@@ -73,7 +75,14 @@ class ReclamationController extends AbstractController
             $entityManager->persist($reclamation);
             $entityManager->flush();
             
-            $flush =$this->addFlash('success', 'Reclamation was successfully saved.');
+            //Ajouter une notification pour les réclamations en cours
+            $reclamations = $reclamationRepository->findBy(['statut' => 'En cours']);
+            foreach ($reclamations as $reclamation) {
+                $session->getFlashBag()->add('success', [
+                    'message' => 'La reclamation "'.$reclamation->getReference().'" est en cours de traitement.',
+                    'dismissable' => true,
+                ]);
+            }
             return $this->redirectToRoute('reclamation');
         }
 
@@ -122,7 +131,7 @@ class ReclamationController extends AbstractController
             // save and execute the changes to the database
             $entityManager->persist($reclamation);
             $entityManager->flush();
-        
+            $flush =$this->addFlash('successmod', 'Reclamation was successfully updated.');
             return $this->redirectToRoute('reclamation');
         }
         
@@ -135,7 +144,7 @@ class ReclamationController extends AbstractController
     {
         $entityManager->remove($reclamation);
         $entityManager->flush();
-    
+        $flush =$this->addFlash('successsupp', 'Reclamation was successfully deleted.');
         return $this->redirectToRoute('reclamation');
     }
 

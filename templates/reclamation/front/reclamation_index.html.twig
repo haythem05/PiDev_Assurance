@@ -3,9 +3,10 @@
 {% block title %}Liste des réclamations{% endblock %}
 
 {% block Partie2 %} 
+<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:25px; margin-left:30px;  ">
 <div class="row">
 <div class="row">
-<div  style="display: flex;align-items: center;justify-content: center;margin-top: 80px; padding:25px; margin-left:10px;  ">
+
 
 
 <div class="card-body">
@@ -26,21 +27,54 @@ new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_el
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
  </head>
 
-    {% if app.flashes('success')  %}
-    <script>
-   function test(){
-Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  title: 'Reclamation ajouteé avec Success',
-  showConfirmButton: false,
-  timer: 1500
-})
-   }
-   test()
-    </script>
+    {% if app.flashes('success') %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Swal.fire({
+        icon: 'success',
+        title: 'Réclamation ajoutée avec succès',
+        timerProgressBar: true,
+        showConfirmButton: false,
+        timer: 1500,
+        didClose: () => {
+          location.reload();
+        }
+      });
+    });
+  </script>
 {% endif %}
-
+{% if app.flashes('successmod') %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Swal.fire({
+        icon: 'success',
+        title: 'Réclamation modifiée avec succès',
+        timerProgressBar: true,
+        showConfirmButton: false,
+        timer: 1500,
+        didClose: () => {
+          location.reload();
+        }
+      });
+    });
+  </script>
+{% endif %}
+{% if app.flashes('successsupp') %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      Swal.fire({
+        icon: 'success',
+        title: 'Réclamation supprimée avec succès',
+        timerProgressBar: true,
+        showConfirmButton: false,
+        timer: 1500,
+        didClose: () => {
+          location.reload();
+        }
+      });
+    });
+  </script>
+{% endif %}
                
 
 <a href="{{ path('app_reclamation_orderByDateDESC') }}" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">

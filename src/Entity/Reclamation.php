@@ -101,6 +101,8 @@ class Reclamation
 
     #[ORM\OneToMany(mappedBy: 'Reclamation', targetEntity: Reponse::class)]
     private Collection $reponses;
+
+
     
 
   
@@ -274,6 +276,8 @@ class Reclamation
 
         return $this;
     }
+
+ 
     
 
 }

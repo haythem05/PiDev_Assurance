@@ -1,0 +1,37 @@
+{
+    "name": "ivory/json-builder",
+    "description": "JSON builder with escaping control for PHP 7.0+",
+    "keywords": [ "json", "builder", "escape" ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Samuel Breu",
+            "email": "samuel.breu@bresam.ch",
+            "role": "Developer/Maintainer"
+        },
+        {
+            "name": "Eric GELOEN",
+            "email": "geloen.eric@gmail.com",
+            "role": "Creator/Inactive"
+        }
+    ],
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "symfony/property-access": "^3.0 || ^4.0 || ^5.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
+        "symfony/phpunit-bridge": "^3.0 || ^4.0 || ^5.0"
+    },
+    "replace": {
+        "egeloen/json-builder": "^3.0.0"
+    },
+    "autoload": {
+        "psr-4": { "Ivory\\JsonBuilder\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Ivory\\Tests\\JsonBuilder\\": "tests/" }
+    }
+}

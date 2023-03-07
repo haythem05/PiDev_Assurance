@@ -1,0 +1,48 @@
+{
+    "name": "ivory/google-map",
+    "description": "Google Map API v3 integration for PHP ^7.0",
+    "keywords": [ "google", "map"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Samuel Breu",
+            "email": "samuel.breu@bresam.ch",
+            "role": "Developer/Maintainer"
+        },
+        {
+            "name": "Eric GELOEN",
+            "email": "geloen.eric@gmail.com",
+            "role": "Creator/Inactive"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ivory/json-builder": "^3.0",
+        "symfony/event-dispatcher": "^5.0"
+    },
+    "require-dev": {
+        "ivory/serializer": "^1.0",
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "php-http/cache-plugin": "^1.4",
+        "php-http/guzzle6-adapter": "^2.0",
+        "phpunit/phpunit": "^8.0",
+        "phpunit/phpunit-selenium": "^8.0",
+        "symfony/cache": "^5.0",
+        "symfony/phpunit-bridge": "^5.0",
+        "ext-json": "*"
+    },
+    "suggest": {
+        "ivory/serializer": "Allows to use http services",
+        "php-http/client-implementation": "Allows to use http services",
+        "php-http/message": "Allows to use http services"
+    },
+    "replace": {
+        "egeloen/google-map": "^2.0.2"
+    },
+    "autoload": {
+        "psr-4": { "Ivory\\GoogleMap\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Ivory\\Tests\\GoogleMap\\": "tests/" }
+    }
+}
